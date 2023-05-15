@@ -1,0 +1,79 @@
+@import "../variables.scss";
+@import "../mixins.scss";
+
+.dialerIndividualPage{
+    &__headerImageWrapper{
+        display: flex;
+        justify-content: center;
+        margin: 30px clamp(30px, 18%, 400px);
+        aspect-ratio: 16/7;
+        overflow: hidden;
+        position: relative;
+        align-items: center;
+        border-radius: 16px;
+        &>img{
+            position: absolute;
+            border-radius: 16px;
+            max-height: 70vh;
+            width: 100%;
+        }
+    }
+    &__mainInfo{
+        display: grid;
+        grid-template-columns: .3fr 1fr 1.3fr;
+        margin: 30px clamp(30px, 18%, 400px);
+        column-gap: 20px;
+        row-gap: 30px;
+        &>:nth-child(4){
+            grid-column-start: 1;
+            grid-column-end: 4;
+        }
+        &-title{
+            font-weight: 500;
+            font-size: max(16px, 1.8rem);
+        }
+        &-dialerNowInfo{
+            font-size: max(12px, 1rem);
+        }
+        &-about{
+            font-size: max(12px, 1.2rem);
+            width: 100%;
+            display: flex;
+            font-weight: 400;
+            &-opened{
+                font-size: max(12px, 1.3rem);
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+            }
+            &>img{
+                display: flex;
+                align-self: center;
+                height: 25px;
+                width: 25px;
+                cursor: pointer;
+            }
+        }
+        &-openParams{
+            display: grid;
+            align-items: center;
+            justify-items: center;
+            box-shadow: 0px -1px 10px rgba(0, 0, 0, 0.247);
+            border-radius: 16px;
+            &>button{
+                    margin: 0;
+                }
+                &>p{
+                    color: $mainLight;
+                    font-size: max(16px, 1.4rem);
+                    font-weight: 400;
+                }
+            }
+    }
+    &__logoWrapper{
+        margin-left: 10%;
+    }
+    &__logo{
+        border-radius: 999px;
+    }
+}

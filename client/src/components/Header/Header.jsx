@@ -37,7 +37,7 @@ const Header = () => {
                         <img src="/logo.webp" alt="car-tron" />
                     </Link>
                 </div>
-                <div className="header__nav-item"><Link href={"/dilers"} className={pathname == "/dilers" ? "header__nav-active" : "header__nav-hover"}>Диллеры</Link></div>
+                <div className="header__nav-item"><Link href={"/dialers"} className={pathname == "/dilers" ? "header__nav-active" : "header__nav-hover"}>Диллеры</Link></div>
                 <div className="header__nav-item"><Link href={"/services"} className={pathname == "/services" ? "header__nav-active" : "header__nav-hover"}>Услуги</Link></div>
                 <div className="header__nav-item header__nav-personal ">
                     {userState === false ?

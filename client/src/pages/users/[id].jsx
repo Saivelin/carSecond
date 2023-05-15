@@ -20,7 +20,11 @@ const Users = ({ userInf }) => {
     const router = useRouter()
     const [authd, setAuthd] = useState(false)
     console.log(router.asPath.split("/")[2])
+    console.log(userInf)
     useEffect(() => {
+        if (userInf.user.role == "dialer") {
+            router.push(`/dialers/${userInf.user.id}`)
+        }
         if (localStorage.getItem("token")) {
             if (jwtDecode(localStorage.getItem("token")).id == router.asPath.split("/")[2]) {
                 setAuthd(true)

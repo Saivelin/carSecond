@@ -30,7 +30,7 @@ const DilersList = ({ dialers }) => {
                 return (
                     // <p>{el.lfp}</p>
                     // <img src={`${apiUrl}/${el.headerImageForDealer}`} alt="" />
-                    <Link href={`/dilers/${el.id}`} className={
+                    <Link href={`/dialers/${el.id}`} className={
                         el?.type === 'single' ? "dilersList-item dilersList-item-single" : el.type === 'double' ? "dilersList-item dilersList-item-double" : "dilersList-item"
                     }>
                         <img src={`${apiUrl}/${el.headerImageForDealer}`} alt="" />

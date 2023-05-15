@@ -98,7 +98,7 @@ class UserController {
             const { id } = req.params
             if (id && Number(id)) {
                 const user = await User.findOne({ where: { id } })
-                return res.json({ user: { id: user.id, lfp: user.lfp, phone: user.phone, nick: user.nick, logo: user.logo, lfpOrNick: user.lfpOrNick, about: user.about } })
+                return res.json({ user: { id: user.id, lfp: user.lfp, phone: user.phone, nick: user.nick, logo: user.logo, lfpOrNick: user.lfpOrNick, about: user.about, role: user.role } })
             }
             return res.json({ message: "Not valuable id" })
         }
