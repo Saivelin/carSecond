@@ -109,11 +109,11 @@
                 }
                 &>div>p{
                     font-weight: 500;
-                    color: $mainBgColor;//$mainLight;
+                    color: $mainLight;
                     font-size: max(16px, 1.3rem);
                 }
                 &-item{
-                    background-color:  $mainLight;//$mainBgColor;
+                    background-color: $mainBgColor;
                     justify-content: center;
                     align-items: center;
                     display: grid;

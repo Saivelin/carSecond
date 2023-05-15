@@ -186,13 +186,13 @@ const vehicles = () => {
                                 <p>{vehicle.price.toLocaleString()}₽</p>
                             </div>
                             <div className="vehicleDetails__main-details__footer-item">
-                                <img src="/heart__white.png" alt="like" />
+                                <img src="/heart.webp" alt="like" />
                             </div>
                             <div className="vehicleDetails__main-details__footer-item">
-                                <img src="/phone_white.png" alt="phone" />
+                                <img src="/phone.svg" alt="phone" />
                             </div>
                             <div className="vehicleDetails__main-details__footer-item">
-                                <img src="/email__white.png" alt="email" />
+                                <img src="/email.svg" alt="email" />
                             </div>
                         </div>
                     </div>
