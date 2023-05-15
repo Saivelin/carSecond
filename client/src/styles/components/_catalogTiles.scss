@@ -1,0 +1,108 @@
+@import "../variables.scss";
+
+.catalogTiles{
+    display: grid;
+    grid-column-start: 4;
+    grid-column-end: 12;
+    height: 100%;
+    gap: clamp(10px, 3%, 30px);
+    &-once{
+        grid-template-columns: 1fr;
+    }
+    &-three{
+        grid-template-columns: repeat(3, 1fr);
+        @media (max-width: 1368px) {
+            grid-template-columns: 1fr 1fr;
+        }
+        @media (max-width: 788px) {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+.catalogTile{
+    border-radius: 8px;
+    background-color: $mainBgColor;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.256);
+    &__mainImageWrapper{
+        position: relative;
+    }
+    &__img{
+        width: 100%;
+        &-doubled{
+            border-radius: 8px;
+            position: absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
+            width:100%;
+            height:100%;
+            object-fit:cover;
+        }
+    }
+    &__title{
+        font-weight: 400;
+    }
+    &__about{
+        width: 100%;
+        padding: clamp(10px, 2%, 20px);
+        &-doubled{
+            grid-column-start: 2;
+            grid-column-end: 3;
+            grid-row-start: 1;
+            grid-row-end: 3;
+        }
+        &-around{
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+    &__price{
+        width: 100%;
+        background-color: $darkMainColor;
+        color: $mainBgColor;
+        text-align: center;
+        border-radius: 5px;
+        margin-top: clamp(10px, 10%, 30px);
+        padding: clamp(5px, .1rem, 30px) 0;
+        font-weight: 500;
+    }
+    &__imgs{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        justify-items: center;
+        padding: 3px 10px;
+        gap: 10px;
+        align-items: center;
+        overflow: hidden;
+        position: relative;
+        &>img{
+            width: 100%;
+        }
+    }
+    &__footer{
+        display: grid;
+        grid-template-rows: 1fr .3fr;
+    }
+}
+
+
+.catalogTile-doubled{
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr .6fr;
+    height: 100%;
+    &>.catalogTile__price{
+        align-self: center;
+        margin-bottom: 10px;
+    }
+    .catalogTile__about{
+        width: 100%;
+        padding: clamp(10px, 2%, 20px);
+        &-around{
+            display: grid;
+            row-gap: 10px;
+        }
+    }
+}

@@ -1,0 +1,27 @@
+@mixin box-shadow_dark-white {
+    box-shadow: -5px -5px 14px rgba(255, 255, 255, 0.329), 5px 5px 14px rgba(0, 0, 0, 0.329);
+    transition: 1.4s cubic-bezier(0.075, 0.82, 0.165, 1);
+    &:hover {
+        box-shadow: -5px -5px 14px rgba(255, 255, 255, 0.129), 5px 5px 14px rgba(0, 0, 0, 0.129);
+    }
+}
+
+@mixin inside-shadow {
+    box-shadow: inset -5px -5px 10px rgb(255, 255, 255), inset 5px 5px 10px #273e7793;
+    transition: 1.4s cubic-bezier(0.075, 0.82, 0.165, 1);
+    &:focus {
+        box-shadow: inset -5px -5px 5px rgb(255, 255, 255), inset 5px 5px 5px #273e7793;
+    }
+}
+
+@mixin loginInput {
+    @include inside-shadow;
+    outline: none;
+    background-color: #d7d9dd;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 100px;
+    font-weight: 500;
+    width: 100%;
+    margin: max(10px, 1%) 0;
+}

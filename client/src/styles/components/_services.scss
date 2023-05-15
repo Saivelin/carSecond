@@ -1,0 +1,35 @@
+@import "../variables.scss";
+
+.services{
+    display: grid;
+    margin: 30px clamp(30px, 12%, 400px);
+    gap: clamp(10px, 1.5%, 100px);
+    row-gap: max(30px, 4%);
+    margin-bottom: max(100px, 10%);
+    &__item{
+        padding: max(20px, 2.5%) max(40px, 3.5%);
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.26);
+        border-radius: 16px;
+        background-color: $mainBgColor;
+    }
+    &__mainImgWrapper{
+        height: 100%;
+        display: grid;
+        grid-template-columns: 2fr .5fr 2fr;
+        grid-template-rows: 2fr .5fr 2fr;
+        background-image: url("/serveciesMain.webp");
+        height: 85vh;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        background-size: 100%;
+        &>p{
+            color: #fff;
+            font-weight: 700;
+            font-size: 78px;
+            grid-column-start: 3;
+            grid-column-end: 4;
+            grid-row-start: 3;
+            grid-row-end: 4;
+        }
+    }
+}

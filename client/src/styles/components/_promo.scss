@@ -1,0 +1,87 @@
+@import "../variables.scss";
+@import "../mixins.scss";
+
+.promo{
+    display: grid;
+    grid-template-columns: 1.4fr 2fr;
+    column-gap: 30px;
+    &__image{
+        background-size: 100%;
+        width: 100%;
+        color: $mainBgColor;
+        display: grid;
+        align-items: center;
+        text-align: center;
+        aspect-ratio: 1 / 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 30px;
+        &>p{
+            font-size: max(16px, 1.4rem);
+            font-weight: 500;
+        }
+    }
+    &__about{
+        align-self: start;
+        row-gap: 0px;
+        display: grid;
+        justify-content: center;
+        height: 100%;
+        &>h3{
+            text-align: center;
+            font-size: max(24px, 1.6rem);
+            font-weight: 400;
+            color: #313644;
+        }
+    }
+    &__list{
+        list-style: unset;
+        display: grid;
+        row-gap: max(12px, 1rem);
+        &-item{
+            color: #3E4657;
+            font-weight: 400;
+            margin-left: 1em;
+            font-size: max(16px, 1.4rem);
+        }
+        &-item::before{
+            content: "•";
+            color: $mainLight;
+            font-weight: 900;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+    }
+    &__btnsWrapper{
+        display: grid;
+        column-gap: 30px;
+        grid-template-columns: 1.5fr 1fr;
+        align-self: flex-end;
+        &>:nth-child(1){
+            flex-grow: 2;
+            background-color: #0671F9;
+            color: $mainBgColor;
+        }
+        &>:nth-child(2){
+            flex-grow: 1;
+        }
+    }
+    &__btn{
+        border-radius: 8px;
+        text-align: center;
+        align-items: center;
+        width: 100%;
+        padding: clamp(0px, 10px, 10%);
+        font-weight: 500;
+        @include box-shadow_dark-white;
+    }
+}
+
+.promoRightImage{
+    grid-template-columns: 2fr 1.4fr;
+    &>.promo__about{
+        justify-content: start;
+    }
+}

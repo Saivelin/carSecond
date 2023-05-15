@@ -1,0 +1,24 @@
+@import "../variables.scss";
+
+.input{
+    &-primary{
+        @include loginInput;
+        margin: 0;
+    }
+    &-filter{
+        padding: 15px 20px;
+    }
+}
+
+.button{
+    &-secondary{
+        background-color: $mainLight;
+        border-radius: 10px;
+        padding: clamp(8px, 1%, 16px) clamp(41px, 10%, 123px);
+        color: $mainBgColor;
+        font-size: max(16px, 1.2rem);
+        font-weight: 700;
+        margin: max(70px, 5%) 0 max(15px, 2%) 0;
+        text-align: center;
+    }
+}

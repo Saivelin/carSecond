@@ -1,0 +1,65 @@
+@import "../variables.scss";
+@import "../mixins.scss";
+
+.header{
+    display: flex;
+    padding: clamp(10px, 1%, 20px) clamp(20px, 1%, 40px);
+    color: $mainColor;
+    top: 0;
+    &__nav{
+        width: 100%;
+        display: grid;
+        justify-content: space-around;
+        align-items: center;
+        grid-template-columns: repeat(7, 1fr);
+        &-item{
+            font-size: clamp(12px, 1.3rem, 50px);
+            font-weight: 500;
+            display: grid;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            
+            &>*{
+                font-weight: 400;
+            }
+            &>img{
+                height: clamp(2rem, 4rem, 100px);
+            }
+        }
+        &-active{
+            border-bottom: 2px $mainColor solid; 
+        }
+        &-logo{
+            flex-grow: 1.15;
+        }
+        &-theme{
+            flex-grow: 1.15;
+            cursor: pointer;
+        }
+        &-personal{
+            flex-grow: 1.15;
+            &>a>img{
+                height: clamp(1rem, 3rem, 80px);
+                // border-radius: 999px;
+                // @include inside-shadow;
+            }
+        }
+    }
+}
+
+.header__nav-hover:after {
+    display: block;
+    position: relative;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #4069C9;
+    content: "";
+    transition: width 0.3s ease-out;
+}
+.header__nav-hover:hover:after,
+.header__nav-hover:focus:after {
+    width: 100%;
+}

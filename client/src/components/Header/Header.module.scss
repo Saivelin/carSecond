@@ -1,0 +1,5 @@
+.header{
+    display: flex;
+    padding: clamp(10px, 1%, 20px) clamp(20px, 1%, 40px);
+    transition: .4s cubic-bezier(0.075, 0.82, 0.165, 1);
+}

@@ -1,0 +1,46 @@
+@keyframes op1-op0{
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+
+@keyframes op0-op1{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+@keyframes op1-op05{
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: .5;
+    }
+}
+
+@keyframes op05-op1{
+    0%{
+        opacity: .5;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+@keyframes outerShadow-insideShadow{
+    0%{
+        box-shadow: -5px -5px 14px rgba(255, 255, 255, 0.329), 5px 5px 14px rgba(0, 0, 0, 0.329);
+        transition: 1.4s cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+    100%{
+        box-shadow: inset -5px -5px 10px rgb(255, 255, 255),  inset 5px 5px 10px #273e7793;
+        transition: 1.4s cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+}

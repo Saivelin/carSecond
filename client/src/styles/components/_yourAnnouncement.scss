@@ -1,0 +1,42 @@
+@import "../variables.scss";
+
+.yourAnnouncement{
+    display: grid;
+    h4{
+        font-size: max(16px, 1.7rem);
+        text-align: center;
+    }
+    &__sliderOfMain{
+        width: 100%;
+        margin: 0;
+        border-radius: 8px;
+        &>*{
+            color: black;
+        }
+    }
+    &__sliderWrapper{
+        display: grid;
+        grid-auto-flow: column;
+        align-items: center;
+        column-gap: 5px;
+        margin-bottom: 10%;
+        &>img{
+            cursor: pointer;
+        }
+    }
+    &__slide{
+    }
+    &__footer{
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 0 max(30px, 4%);
+        &-item{
+            display: flex;
+            align-items: center;
+            column-gap: 10px;
+            font-size: max(16px, 1.3rem);
+            font-weight: 400;
+        }
+    }
+}

@@ -1,0 +1,6 @@
+.catalog{
+    display: grid;
+    grid-template-columns: repeat(11, 1fr);
+    margin: 10px clamp(30px, 5%, 200px);
+    column-gap: clamp(10px, 2%, 100px);
+}

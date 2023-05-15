@@ -1,0 +1,33 @@
+{
+  "name": "car",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^2.6.0",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "axios": "^1.4.0",
+    "dotenv": "^16.0.3",
+    "framer-motion": "^10.12.4",
+    "jwt-decode": "^3.1.2",
+    "next": "13.3.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.9",
+    "react-image-gallery": "^1.2.11",
+    "react-input-mask": "^2.0.4",
+    "react-select": "^5.7.2",
+    "react-select-search": "^4.1.6",
+    "recoil": "^0.7.7",
+    "sass": "^1.58.3",
+    "swiper": "^9.2.4",
+    "use-mask-input": "^3.1.1"
+  },
+  "proxy": "http://localhost:3005/api"
+}

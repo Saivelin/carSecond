@@ -1,0 +1,20 @@
+@import "../mixins.scss";
+
+.dilersMap{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    column-gap: max(20px, 3%);
+    &__input{
+        @include loginInput;
+        margin: 0;
+    }
+    &__form{
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+        &-twoInOne{
+            display: flex;
+            column-gap: 20px;
+        }
+    }
+}

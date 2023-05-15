@@ -1,0 +1,70 @@
+@import "../variables.scss";
+@import "../mixins.scss";
+
+.editUserProfile{
+    display: grid;
+    padding: max(10px, 1%) max(10px, 5%);
+    grid-template-columns: 1fr 2fr;
+    column-gap: 50px;
+    &__newAdForm__addImageForNewAdWrapper{
+        padding: 0 !important;
+        &>img{
+            max-width: 150px;
+        }
+    }
+    &__newAdForm__addImageForNewAdWrapper{
+        aspect-ratio: 1/1.25;
+        padding: 25px;
+        max-height: 85%;
+    }
+    &__inputs{
+        display: grid;
+    }
+    &__label{
+        font-weight: 500;
+        font-size: max(12px, 1.1rem);
+        color: $darkMainColor;
+        margin-left: 15px;
+    }
+    &__input:not([type="radio"]){
+        @include loginInput;
+    }
+    &__input{
+        &-phone{
+            margin: 0 !important;
+        }
+    }
+    &__btn{
+        @include box-shadow_dark-white;
+        border-radius: 30px;
+        padding: 10px 50px;
+        color: $darkMainColor;
+        font-size: max(12px, 1.1rem);
+        font-weight: 500;
+        width: 40%;
+        &-secondary{
+            background-color: $mainLight;
+            color: $mainBgColor;
+            border-radius: 8px;
+            padding: max(5px, 2%) max(5px, 2%);
+            width: 55%;
+            font-weight: 500;
+        }
+    }
+    &__phones{
+        display: grid;
+        row-gap: 10px;
+        margin-bottom: 20px;
+    }
+    &__radioWrapper{
+        display: flex;
+        flex-direction: column;
+        row-gap: 5px;
+        margin: 10px 0;
+    }
+    &__personalData{
+        &>textarea{
+            border-radius: 18px !important;
+        }
+    }
+}

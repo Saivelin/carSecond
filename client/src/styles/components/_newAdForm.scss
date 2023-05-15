@@ -1,0 +1,137 @@
+@import "../variables.scss";
+@import "../mixins.scss";
+
+.newAdForm{
+    display: grid;
+    grid-template-columns: 1.7fr 1fr;
+    column-gap: 30px;
+    &__select{
+        &-value{
+            &>input{
+                @include loginInput;
+                margin: 0;
+            }
+        }
+        &-options{
+            @include loginInput;
+            margin: 10px 0;
+            position: absolute;
+            width: 200px;
+            border-radius: 8px;
+            list-style: none;
+            max-height: 150px;
+            overflow-y: auto;
+            display: none;
+            &>li>button{
+                font-weight: 500;
+            }
+            &::-webkit-scrollbar {
+                width: 16px;
+              }
+            &::-webkit-scrollbar-track {
+                background-color: #e4e4e4;
+                border-radius: 100px;
+              }
+            &::-webkit-scrollbar-thumb {
+                background-color: $darkMainColor;
+                border-radius: 100px;
+              }
+        }
+        &-has-focus>.newAdForm__select-select>.newAdForm__select-options{
+            display: grid;
+        }
+    }
+    &__addImageForNewAd{
+        display: none;
+    }
+    &__addImageForNewAdWrapper{
+        cursor: pointer;
+        display: grid;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        padding: clamp(20px, 100px, 300px) clamp(20px, 250px, 300px);
+        aspect-ratio: 3/2;
+        @include box-shadow_dark-white;
+        &-content{
+            &>img{
+                width: 100%;
+            }
+            &>p{
+                font-size: max(16px, 1.3rem);
+                font-weight: 500;
+                text-align: center;
+            }
+        }
+    }
+    &__input{
+        &-primary{
+            outline: none !important;
+            background-color: $mainBgColor;
+            border: none !important;
+            padding: max(5px, 15px) max(5px, 20px);
+            border-radius: 100px;
+            font-weight: 500;
+            @include inside-shadow;
+            // @include box-shadow_dark-white;
+        }
+    }
+    &__right{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        row-gap: 25px;
+        &-flexAuto{
+            display: flex;
+            column-gap: 10px;
+        }
+    }
+    &__left{
+        display: flex;
+        flex-direction: column;
+        row-gap: 25px;
+        &-rightLeft{
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            margin-left: 20px;
+            row-gap: 10px;
+            &>div{
+                display: flex;
+                column-gap: 5px;
+                &>label{
+                    font-weight: 500;
+                }
+            }
+        }
+        &-inputsWrapper{
+            max-width: 70%;
+            display: flex;
+            flex-direction: column;
+            row-gap: 25px;
+        }
+    }
+}
+
+.radioWrapper{
+    &__radio{
+        &:checked+.transmissionWrapper{ 
+            @include inside-shadow;
+        } 
+        display: none;
+    }
+}
+
+.transmissionWrapper{
+    display: flex;
+    padding: 10px 20px;
+    border-radius: 8px;
+    align-items: center;
+    column-gap: 10px;
+    @include box-shadow_dark-white;
+    &>img{
+        max-width: 35px;
+    }
+}
