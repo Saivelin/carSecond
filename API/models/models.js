@@ -14,6 +14,23 @@ const User = sequelize.define('user', {
     headerImageForDealer: { type: DataTypes.STRING, defaultValue: "" },
 })
 
+const Advertisement = sequelize.define('advertisements', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    mark: { type: DataTypes.STRING },
+    model: { type: DataTypes.STRING },
+    generation: { type: DataTypes.STRING },
+})
+
+const photoForAdvertisement = sequelize.define('photoForAdvertisement', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    url: { type: DataTypes.STRING },
+})
+
+User.hasMany(Advertisement)
+Advertisement.hasMany(photoForAdvertisement)
+
 module.exports = {
-    User
+    User,
+    Advertisement,
+    photoForAdvertisement,
 }

@@ -39,7 +39,7 @@ const Users = ({ userInf }) => {
                 <YourAnnouncement />
             </div>
             <div className="userAnnouncements">
-                <CatalogTiles />
+                <CatalogTiles tiles={userInf.user.advertisements} />
             </div>
         </div>
     );

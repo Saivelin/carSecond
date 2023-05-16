@@ -1,7 +1,7 @@
 import CatalogTile from "./CatalogTile";
 import { useEffect } from "react";
 
-const CatalogTiles = () => {
+const CatalogTiles = ({ tiles }) => {
     const test = [{
         id: 1,
         img: "/test.png",
@@ -35,16 +35,26 @@ const CatalogTiles = () => {
     })
 
     return (
-        <div className="catalogTiles catalogTiles-three">
-            <CatalogTile tile={test[0]} doubled={true} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
-            <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
-            <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
-            <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
-            <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
-            <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
-            <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
-            <CatalogTile tile={test[0]} doubled={true} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
-            <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+        <div>
+            {!tiles ?
+                <div className="catalogTiles catalogTiles-three">
+                    <CatalogTile tile={test[0]} doubled={true} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    <CatalogTile tile={test[0]} doubled={true} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                </div>
+                :
+                <div className="catalogTiles catalogTiles-three">
+                    {tiles.map((el) => {
+                        return <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    })}
+                </div>
+            }
         </div>
     );
 };
