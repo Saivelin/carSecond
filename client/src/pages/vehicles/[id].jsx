@@ -7,8 +7,19 @@ import CatalogTile from "@/components/CatalogTile";
 import { motion } from "framer-motion";
 import ImageGallery from 'react-image-gallery';
 import Modal from "@/components/Modal"
+import { getById } from "@/http/adsAPI";
 
-const vehicles = () => {
+export const getServerSideProps = async (context) => {
+    const { id } = context.params
+    let response = await getById(id)
+
+    return {
+        props: { vehicleFromServer: response }
+    }
+}
+
+const vehicles = ({ vehicleFromServer }) => {
+    console.log(vehicleFromServer)
     const test = [{
         id: 1,
         img: "/test.png",
@@ -26,7 +37,7 @@ const vehicles = () => {
     }]
     const [vehicle, setVehicle] = useState({
         title: "BMW M5 Competition, 2020",
-        imgs: [
+        photoForAdvertisements: [
             "test1.png",
             "test2.png",
             "test3.png",
@@ -84,11 +95,15 @@ const vehicles = () => {
         ]
     });
 
+    useEffect(() => {
+        setVehicle(vehicleFromServer)
+    }, [])
+
     const vehicleHover = (i) => {
-        var arr = vehicle.imgs
+        var arr = vehicle.photoForAdvertisements
         arr[i] = arr.splice(0, 1, arr[i])[0]
         console.log(arr)
-        setVehicle({ ...vehicle, imgs: arr })
+        setVehicle({ ...vehicle, photoForAdvertisements: arr })
         // mainImage.current.style.cssText = "opacity: 0;animation: op1-op0 .125s;"
         // setTimeout(() => {
         //     setVehicle({ ...vehicle, imgs: arr })
@@ -97,10 +112,10 @@ const vehicles = () => {
     }
 
     const vehicleMouseLeave = (i) => {
-        var arr = vehicle.imgs
+        var arr = vehicle.photoForAdvertisements
         arr[i] = arr.splice(0, 1, arr[i])[0]
         console.log(arr)
-        setVehicle({ ...vehicle, imgs: arr })
+        setVehicle({ ...vehicle, photoForAdvertisements: arr })
         // mainImage.current.style.cssText = "opacity: 0;animation: op1-op0 .125s;"
         // setTimeout(() => {
         //     setVehicle({ ...vehicle, imgs: arr })
@@ -125,7 +140,7 @@ const vehicles = () => {
 
     useEffect(() => {
 
-    }, [vehicle.imgs])
+    }, [vehicle.photoForAdvertisements])
 
     return (
         <motion.div className='vehicleDetails'>
@@ -133,7 +148,7 @@ const vehicles = () => {
                 <div className="vehicleDetails__gallery-fullScreenModal" onClick={(e) => { e.stopPropagation() }}>
                     <ImageGallery
                         lazyLoad={true}
-                        items={vehicle.imgsFull}
+                        items={vehicle?.imgsFull}
                         showPlayButton={false}
                         className="vehicleDetails__gallery-fullScreen"
                     />
@@ -142,10 +157,10 @@ const vehicles = () => {
             <div className="vehicleDetails__main">
                 <div className="vehicleDetails__main__gallery">
                     <div className="vehicleDetails__main__gallery-activeWrapper">
-                        <img ref={mainImage} src={"/" + vehicle.imgs[0]} alt="" className="vehicleDetails__main__gallery-active" />
+                        <img ref={mainImage} src={"/" + vehicle.photoForAdvertisements[0]} alt="" className="vehicleDetails__main__gallery-active" />
                     </div>
                     <div className="vehicleDetails__main__gallery-disactiveWrapper">
-                        {vehicle.imgs.map((el, i) => {
+                        {vehicle?.photoForAdvertisements.map((el, i) => {
                             if (i != 0) {
                                 return <motion.div
                                     initial={{ opacity: 1 }}
@@ -168,22 +183,22 @@ const vehicles = () => {
                 </div>
                 <div className="vehicleDetails__main-details">
                     <div className="vehicleDetails__main-details-title">
-                        <p className="">{vehicle.title}</p>
-                        {vehicle.confirmation === true ?
+                        <p className="">{vehicle?.title}</p>
+                        {vehicle?.confirmation === true ?
                             <img src="/confirmation.svg" alt="" />
                             :
                             ""
                         }
                     </div>
                     <div className="vehicleDetails__main-details-propertys">
-                        {vehicle.details.map((el) => {
+                        {vehicle.details ? vehicle?.details.map((el) => {
                             return <div className="vehicleDetails__main-details-propertys-item"><p>{el.split(":")[0]}:</p><p className="vehicleDetails__main-details-prop">{el.split(":")[1]}</p></div>
-                        })}
+                        }) : ""}
                     </div>
                     <div className="vehicleDetails__main-details__footerWrapper">
                         <div className="vehicleDetails__main-details__footer">
                             <div className="vehicleDetails__main-details__footer-item">
-                                <p>{vehicle.price.toLocaleString()}₽</p>
+                                <p>{vehicle?.price.toLocaleString()}₽</p>
                             </div>
                             <div className="vehicleDetails__main-details__footer-item">
                                 <img src="/heart.webp" alt="like" />
@@ -199,7 +214,7 @@ const vehicles = () => {
                 </div>
             </div>
             <div className="vehicleDetails__package">
-                <h4 className="vehicleDetails__package-title">Комплектация: <span className="vehicleDetails__package-title-colored">{vehicle.package}</span></h4>
+                <h4 className="vehicleDetails__package-title">Комплектация: <span className="vehicleDetails__package-title-colored">{vehicle?.package}</span></h4>
                 <div className="vehicleDetails__package-mainWrapper">
                     <Swiper
                         className='vehicleDetails__package-main'

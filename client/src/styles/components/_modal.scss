@@ -18,9 +18,8 @@
 }
 
 .modal{
-    min-height: 300px;
-    min-width: 300px;
-    max-height: 75%;
+	height: 70%;
+	width: 70%;
     padding: clamp(10px, 3%, 300px);
     z-index: 9;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.515);
@@ -28,6 +27,10 @@
     min-width: none;
     border-radius: 16px;
     overflow-y: scroll;
+	 position: absolute;
+	 left: 0;
+    right: 0;
+    margin: 0 auto;
     &::-webkit-scrollbar {
         width: 16px;
     }

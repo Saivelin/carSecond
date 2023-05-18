@@ -101,6 +101,20 @@ class UserController {
             res.status(400).json({ status: false, errorName: e })
         }
     }
+
+    async getById(req, res) {
+        try {
+            const { id } = req.params
+            if (id && Number(id)) {
+                const vehicle = await Advertisement.findOne({ where: { id }, include: { model: photoForAdvertisement, attributes: ["url"] } })
+                return res.json(vehicle)
+            }
+            return res.json({ message: "Not valuable id" })
+        }
+        catch {
+            return res.json({ status: false, user: false })
+        }
+    }
 }
 
 module.exports = new UserController()

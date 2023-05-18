@@ -3,11 +3,23 @@ import CatalogTiles from "./CatalogTiles";
 import Filters from "./Filters";
 import { apiUrl } from "@/vars";
 import { useState, useEffect } from "react";
-import { getAll } from "@/http/adsAPI";
+import { getAllAds } from "@/http/adsAPI";
 
-const Catalog = ({ adsFromServer }) => {
-    const [ads, setAds] = useState(adsFromServer)
-    console.log(adsFromServer)
+const Catalog = () => {
+    const [ads, setAds] = useState()
+
+    const getAds = async () => {
+        const res = await axios.get(`${apiUrl}api/advertisement/getAll`)
+        setAds(res.data)
+    }
+
+    useEffect(() => {
+        getAds()
+    }, [])
+
+    useEffect(() => {
+        console.log(ads)
+    }, [ads])
 
     return (
         <div className='catalog'>

@@ -39,7 +39,7 @@ const CatalogTiles = ({ tiles }) => {
 
     return (
         <>
-            {!advertisements ?
+            {!tiles ?
                 <div className="catalogTiles catalogTiles-three">
                     <CatalogTile tile={test[0]} doubled={true} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
                     <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
@@ -53,8 +53,8 @@ const CatalogTiles = ({ tiles }) => {
                 </div>
                 :
                 <div className="catalogTiles catalogTiles-three">
-                    {advertisements.map((el) => {
-                        return <CatalogTile tile={el} imgs={el.photoForAdvertisements} />
+                    {tiles.map((el, i) => {
+                        return <CatalogTile key={i} tile={el} imgs={el.photoForAdvertisements} />
                     })}
                 </div>
             }

@@ -21,6 +21,7 @@
         }
         &__input {
             @include loginInput;
+				margin: max(10px, 1%) 0;
             text-align: center;
             &::placeholder {
                 text-align: center;

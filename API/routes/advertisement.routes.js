@@ -6,5 +6,6 @@ const roleMiddleware = require("../middleware/roleMiddleware")
 
 router.post('/add', advertisementController.add)
 router.get('/getAll', advertisementController.getAll)
+router.get('/getById/:id', advertisementController.getById)
 
 module.exports = router

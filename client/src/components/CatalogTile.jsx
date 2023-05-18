@@ -5,7 +5,6 @@ import { apiUrl } from "@/vars";
 const CatalogTile = ({ tile, doubled, imgs }) => {
     const [imagesOfVehicle, setImagesOfVehicle] = useState(tile.photoForAdvertisements)
     useEffect(() => {
-        setImagesOfVehicle(tile.photoForAdvertisements)
         console.log(imagesOfVehicle)
     }, [])
     console.log(tile)
@@ -30,7 +29,7 @@ const CatalogTile = ({ tile, doubled, imgs }) => {
                 <img src={imagesOfVehicle ? apiUrl + imagesOfVehicle[0].url : imagesOfVehicle} alt={tile?.title} className={!doubled ? 'catalogTile__img' : "catalogTile__img-doubled"} />
             </div>
             <div className={!doubled ? "catalogTile__about" : "catalogTile__about catalogTile__about-doubled"}>
-                <h5 className='catalogTile__title'><Link href={"/vehicles/" + tile?.id}>{tile?.title}</Link></h5>
+                <h5 className='catalogTile__title'><Link href={"/vehicles/" + tile?.id}>{tile?.mark} {tile?.model}</Link></h5>
                 <div className=''>
                     {doubled === true ?
                         <div className='catalogTile__about-around'>
@@ -42,7 +41,7 @@ const CatalogTile = ({ tile, doubled, imgs }) => {
                     }
                     <div className='catalogTile__about-around'>
                         <p>{doubled === true ? "Год выпуска: " + String(tile?.year) : tile?.year}</p>
-                        <p>{doubled === true ? "Кузов: " + String(tile?.complication) : tile?.complication}</p>
+                        <p>{doubled === true ? "Кузов: " + String(tile?.bodyType) : tile?.bodyType}</p>
                     </div>
                     <div className='catalogTile__about-around'>
                         <p>{doubled === true ? "Пробег: " + String(tile?.mileage) : tile?.mileage}км</p>
