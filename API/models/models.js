@@ -19,6 +19,30 @@ const Advertisement = sequelize.define('advertisements', {
     mark: { type: DataTypes.STRING },
     model: { type: DataTypes.STRING },
     generation: { type: DataTypes.STRING },
+    year: { type: DataTypes.STRING, defaultValue: "Не указан" },
+    fuel: { type: DataTypes.STRING, defaultValue: "Не указан" },
+    bodyType: { type: DataTypes.STRING, defaultValue: "Не указан" },
+    drive: { type: DataTypes.STRING, defaultValue: "Не указан" },
+    transmission: { type: DataTypes.STRING, defaultValue: "Не указан" },
+    modification: { type: DataTypes.STRING, defaultValue: "Не указана" },
+    color: { type: DataTypes.STRING, defaultValue: "Не указан" },
+    mileage: { type: DataTypes.STRING, defaultValue: "Не указан" },
+    features: { type: DataTypes.STRING, defaultValue: "Не указаны" },
+    howToContactType: { type: DataTypes.STRING, defaultValue: "All" },
+    address: { type: DataTypes.STRING },
+    licensePlate: { type: DataTypes.STRING },
+    vin: { type: DataTypes.STRING },
+    carRegistrationCertificate: { type: DataTypes.STRING },
+    notRegisteredInRF: { type: DataTypes.BOOLEAN, defaultValue: false },
+    price: { type: DataTypes.STRING, defaultValue: "Договорная" },
+    exchange: { type: DataTypes.BOOLEAN, defaultValue: false },
+    broken: { type: DataTypes.BOOLEAN, defaultValue: false },
+    carTronOnly: { type: DataTypes.BOOLEAN, defaultValue: false },
+    comment: { type: DataTypes.TEXT, defaultValue: "" },
+    cleared: { type: DataTypes.BOOLEAN, defaultValue: false }, //растоможен
+    isUnderWarranty: { type: DataTypes.BOOLEAN, defaultValue: false }, //на гарантии
+    whenVehicleBought: { type: DataTypes.STRING, defaultValue: "Не указано" },
+    typeOfDocument: { type: DataTypes.STRING },
 })
 
 const photoForAdvertisement = sequelize.define('photoForAdvertisement', {

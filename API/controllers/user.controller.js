@@ -16,6 +16,14 @@ const generateAccessToken = (id, role, lfp) => {
     return jwt.sign(payload, secret, { expiresIn: "24h" })
 }
 
+async function findImages(ads) {
+    await ads.forEach(async (ad) => {
+        const image = await photoForAdvertisement.findAll({ where: { advertisementId: ad.id } })
+        ad.photos = image
+    })
+    return ads
+}
+
 class UserController {
     async registration(req, res, next) {
         console.log("reg")
@@ -98,7 +106,7 @@ class UserController {
             const { id } = req.params
             if (id && Number(id)) {
                 const user = await User.findOne({ where: { id } })
-                const advertisements = await Advertisement.findAll({ where: { userId: user.id } })
+                const advertisements = await Advertisement.findAll({ where: { userId: user.id }, include: { model: photoForAdvertisement, attributes: ["url"] } })
                 return res.json({ user: { id: user.id, lfp: user.lfp, phone: user.phone, nick: user.nick, logo: user.logo, lfpOrNick: user.lfpOrNick, about: user.about, role: user.role, advertisements: advertisements } })
             }
             return res.json({ message: "Not valuable id" })

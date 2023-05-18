@@ -10,7 +10,35 @@ async function uploadImages(files, id) {
 class UserController {
     async add(req, res, next) {
         try {
-            const { mark, model, generation, userId } = req.body
+            const {
+                mark,
+                model,
+                generation,
+                year,
+                fuel,
+                bodyType,
+                drive,
+                transmission,
+                modification,
+                color,
+                mileage,
+                features,
+                howToContactType,
+                address,
+                licensePlate,
+                vin,
+                carRegistrationCertificate,
+                notRegisteredInRF,
+                price,
+                exchange,
+                broken,
+                carTronOnly,
+                comment,
+                cleared,
+                isUnderWarranty,
+                whenVehicleBought,
+                typeOfDocument,
+                userId } = req.body
             const files = Object.values(req.files);
 
             if (!mark || !model || !generation || !userId) {
@@ -27,9 +55,48 @@ class UserController {
                 img.fileName = fileName;
             })
 
-            const newAdvertisement = await Advertisement.create({ mark: mark, model: model, generation: generation, userId: userId })
+            const newAdvertisement = await Advertisement.create(
+                {
+                    mark: mark,
+                    model: model,
+                    generation: generation,
+                    userId: userId,
+                    year,
+                    fuel,
+                    bodyType,
+                    drive,
+                    transmission,
+                    modification,
+                    color,
+                    mileage,
+                    features,
+                    howToContactType,
+                    address,
+                    licensePlate,
+                    vin,
+                    carRegistrationCertificate,
+                    notRegisteredInRF,
+                    price,
+                    exchange,
+                    broken,
+                    carTronOnly,
+                    comment,
+                    cleared,
+                    isUnderWarranty,
+                    whenVehicleBought,
+                    typeOfDocument,
+                })
             await uploadImages(files, newAdvertisement.id)
             return res.status(200).json({ status: true, newAdvertisement })
+        } catch (e) {
+            res.status(400).json({ status: false, errorName: e })
+        }
+    }
+
+    async getAll(req, res) {
+        try {
+            const ads = await Advertisement.findAll({ include: { model: photoForAdvertisement, attributes: ["url"] } })
+            return res.json(ads)
         } catch (e) {
             res.status(400).json({ status: false, errorName: e })
         }

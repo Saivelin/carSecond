@@ -1,11 +1,14 @@
 import CatalogTile from "./CatalogTile";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { apiUrl } from "@/vars";
 
 const CatalogTiles = ({ tiles }) => {
+    const [advertisements, setAdvertisements] = useState(tiles)
+
     const test = [{
         id: 1,
         img: "/test.png",
-        images: ["/test.png", "/test1.png", "/test2.png", "/test3.png"],
+        photoForAdvertisements: ["/test.png", "/test1.png", "/test2.png", "/test3.png"],
         title: "BMW M5 Competition, 2020",
         year: 2020,
         complication: "Полный",
@@ -35,8 +38,8 @@ const CatalogTiles = ({ tiles }) => {
     })
 
     return (
-        <div>
-            {!tiles ?
+        <>
+            {!advertisements ?
                 <div className="catalogTiles catalogTiles-three">
                     <CatalogTile tile={test[0]} doubled={true} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
                     <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
@@ -50,12 +53,12 @@ const CatalogTiles = ({ tiles }) => {
                 </div>
                 :
                 <div className="catalogTiles catalogTiles-three">
-                    {tiles.map((el) => {
-                        return <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    {advertisements.map((el) => {
+                        return <CatalogTile tile={el} imgs={el.photoForAdvertisements} />
                     })}
                 </div>
             }
-        </div>
+        </>
     );
 };
 

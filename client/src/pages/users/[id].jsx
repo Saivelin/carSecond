@@ -9,7 +9,9 @@ import jwtDecode from "jwt-decode";
 
 export const getServerSideProps = async (context) => {
     const { id } = context.params
-    const response = await getInfo(id)
+    let response = await getInfo(id)
+
+    console.log(response)
 
     return {
         props: { userInf: response }
@@ -30,10 +32,19 @@ const Users = ({ userInf }) => {
                 setAuthd(true)
             }
         }
+        userInf.user.advertisements.forEach((el) => {
+            let newPhotos = []
+            el.photoForAdvertisements.map((photo) => {
+                newPhotos.push(photo.url)
+            })
+            el.photoForAdvertisements = newPhotos
+        })
+        console.log(userInf)
     }, [])
     return (
         <div>
             <div className="userMain">
+                {console.log(userInf.user)}
                 <UserMain userInf={userInf.user} auth={authd} />
                 <UserPageAddAnnouncement />
                 <YourAnnouncement />

@@ -1,11 +1,18 @@
+import axios from "axios";
 import CatalogTiles from "./CatalogTiles";
 import Filters from "./Filters";
+import { apiUrl } from "@/vars";
+import { useState, useEffect } from "react";
+import { getAll } from "@/http/adsAPI";
 
-const Catalog = () => {
+const Catalog = ({ adsFromServer }) => {
+    const [ads, setAds] = useState(adsFromServer)
+    console.log(adsFromServer)
+
     return (
         <div className='catalog'>
             <Filters />
-            <CatalogTiles />
+            <CatalogTiles tiles={ads} />
         </div>
     );
 };

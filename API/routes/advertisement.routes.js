@@ -5,5 +5,6 @@ const authMiddleware = require("../middleware/authMiddleware")
 const roleMiddleware = require("../middleware/roleMiddleware")
 
 router.post('/add', advertisementController.add)
+router.get('/getAll', advertisementController.getAll)
 
 module.exports = router

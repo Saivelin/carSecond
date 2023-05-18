@@ -1,8 +1,13 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { apiUrl } from "@/vars";
 
 const CatalogTile = ({ tile, doubled, imgs }) => {
-    const [imagesOfVehicle, setImagesOfVehicle] = useState(tile?.images)
+    const [imagesOfVehicle, setImagesOfVehicle] = useState(tile.photoForAdvertisements)
+    useEffect(() => {
+        setImagesOfVehicle(tile.photoForAdvertisements)
+        console.log(imagesOfVehicle)
+    }, [])
     console.log(tile)
 
     const vehicleHover = (i) => {
@@ -22,7 +27,7 @@ const CatalogTile = ({ tile, doubled, imgs }) => {
     return (
         <div className={doubled === true ? "catalogTile catalogTile-doubled" : "catalogTile"}>
             <div className="catalogTile__mainImageWrapper">
-                <img src={imagesOfVehicle[0]} alt={tile?.title} className={!doubled ? 'catalogTile__img' : "catalogTile__img-doubled"} />
+                <img src={imagesOfVehicle ? apiUrl + imagesOfVehicle[0].url : imagesOfVehicle} alt={tile?.title} className={!doubled ? 'catalogTile__img' : "catalogTile__img-doubled"} />
             </div>
             <div className={!doubled ? "catalogTile__about" : "catalogTile__about catalogTile__about-doubled"}>
                 <h5 className='catalogTile__title'><Link href={"/vehicles/" + tile?.id}>{tile?.title}</Link></h5>
