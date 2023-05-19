@@ -43,6 +43,11 @@ const Advertisement = sequelize.define('advertisements', {
     isUnderWarranty: { type: DataTypes.BOOLEAN, defaultValue: false }, //на гарантии
     whenVehicleBought: { type: DataTypes.STRING, defaultValue: "Не указано" },
     typeOfDocument: { type: DataTypes.STRING },
+    volume: { type: DataTypes.STRING, defaultValue: "Не указан" },
+    consumption: { type: DataTypes.STRING, defaultValue: "Не указан" },
+    complication: { type: DataTypes.STRING, defaultValue: "Не указана" },
+    driveHand: { type: DataTypes.STRING, defaultValue: "Левый" },
+    state: { type: DataTypes.STRING, defaultValue: "Б/У" }
 })
 
 const photoForAdvertisement = sequelize.define('photoForAdvertisement', {

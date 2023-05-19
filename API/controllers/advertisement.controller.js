@@ -1,4 +1,4 @@
-const { Advertisement, photoForAdvertisement } = require('../models/models')
+const { Advertisement, photoForAdvertisement, User } = require('../models/models')
 const uuid = require('uuid')
 
 async function uploadImages(files, id) {
@@ -108,6 +108,22 @@ class UserController {
             if (id && Number(id)) {
                 const vehicle = await Advertisement.findOne({ where: { id }, include: { model: photoForAdvertisement, attributes: ["url"] } })
                 return res.json(vehicle)
+            }
+            return res.json({ message: "Not valuable id" })
+        }
+        catch {
+            return res.json({ status: false, user: false })
+        }
+    }
+
+    async getUserByIdOfAd(req, res) {
+        try {
+            const { id } = req.params
+            if (id && Number(id)) {
+                const ad = await Advertisement.findOne({ where: { id: id } })
+                const uid = ad.toJSON().userId;
+                const user = await User.findOne({ where: { id: uid } })
+                return res.json({ lfp: user.lfp, phone: user.phone, role: user.role, logo: user.logo, lfpOrNick: user.lfpOrNick, nick: user.nick })
             }
             return res.json({ message: "Not valuable id" })
         }

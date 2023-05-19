@@ -7,19 +7,27 @@ import CatalogTile from "@/components/CatalogTile";
 import { motion } from "framer-motion";
 import ImageGallery from 'react-image-gallery';
 import Modal from "@/components/Modal"
-import { getById } from "@/http/adsAPI";
+import { getById, getUserByIdOfAd } from "@/http/adsAPI";
+import { apiUrl } from "@/vars";
+import Head from "next/head";
+import { useSetRecoilState } from "recoil";
+import { modalState } from "@/state/atoms";
 
 export const getServerSideProps = async (context) => {
     const { id } = context.params
     let response = await getById(id)
+    let user = await getUserByIdOfAd(id)
 
     return {
-        props: { vehicleFromServer: response }
+        props: { vehicleFromServer: response, userOfAd: user }
     }
 }
 
-const vehicles = ({ vehicleFromServer }) => {
+const vehicles = ({ vehicleFromServer, userOfAd }) => {
+    const setModal = useSetRecoilState(modalState)
     console.log(vehicleFromServer)
+    console.log(userOfAd)
+
     const test = [{
         id: 1,
         img: "/test.png",
@@ -35,6 +43,7 @@ const vehicles = ({ vehicleFromServer }) => {
         generation: "Поколение: vi (F90) рестайлинг",
         shiftBox: "Автомат",
     }]
+    const [userOfAdState, setUserOfAd] = useState(userOfAd)
     const [vehicle, setVehicle] = useState({
         title: "BMW M5 Competition, 2020",
         photoForAdvertisements: [
@@ -96,7 +105,17 @@ const vehicles = ({ vehicleFromServer }) => {
     });
 
     useEffect(() => {
-        setVehicle(vehicleFromServer)
+        let newVehicle = vehicleFromServer
+        // newVehicle.imgsFull = newVehicle.photoForAdvertisements.map((el) => {
+        //     el = { original: el, thumbnail: el }
+        // })
+        let newPhotos = []
+        vehicleFromServer.photoForAdvertisements.map((photo) => {
+            newPhotos.push(photo.url)
+        })
+        vehicleFromServer.photoForAdvertisements = newPhotos
+        setVehicle(newVehicle)
+        setUserOfAd(userOfAd)
     }, [])
 
     const vehicleHover = (i) => {
@@ -138,26 +157,26 @@ const vehicles = ({ vehicleFromServer }) => {
     const mainImage = useRef()
     const gallery = useRef()
 
-    useEffect(() => {
-
-    }, [vehicle.photoForAdvertisements])
-
     return (
         <motion.div className='vehicleDetails'>
+            <Head>
+                <title>Cartron {vehicle.mark} {vehicle.model} {vehicle.generation}</title>
+            </Head>
             <div className="vehicleDetails__gallery-fullScreenWrapper" ref={gallery} onClick={closeGallery}>
                 <div className="vehicleDetails__gallery-fullScreenModal" onClick={(e) => { e.stopPropagation() }}>
-                    <ImageGallery
+                    {/* <ImageGallery
                         lazyLoad={true}
                         items={vehicle?.imgsFull}
                         showPlayButton={false}
                         className="vehicleDetails__gallery-fullScreen"
-                    />
+                    /> */}
                 </div>
             </div>
+
             <div className="vehicleDetails__main">
                 <div className="vehicleDetails__main__gallery">
                     <div className="vehicleDetails__main__gallery-activeWrapper">
-                        <img ref={mainImage} src={"/" + vehicle.photoForAdvertisements[0]} alt="" className="vehicleDetails__main__gallery-active" />
+                        <img ref={mainImage} src={`${apiUrl}` + vehicle.photoForAdvertisements[0]} alt="" className="vehicleDetails__main__gallery-active" />
                     </div>
                     <div className="vehicleDetails__main__gallery-disactiveWrapper">
                         {vehicle?.photoForAdvertisements.map((el, i) => {
@@ -166,7 +185,7 @@ const vehicles = ({ vehicleFromServer }) => {
                                     initial={{ opacity: 1 }}
                                     whileInView={{ opacity: 1 }}
                                     exit={{ opacity: 0 }}
-                                    className="vehicleDetails__main__gallery-disactiveWrapper-itemWrapper"><img key={el.id} src={"/" + el} alt=""
+                                    className="vehicleDetails__main__gallery-disactiveWrapper-itemWrapper"><img key={el.id} src={`${apiUrl}` + el} alt=""
                                         onClick={() => {
                                             openGallery()
                                         }}
@@ -183,7 +202,7 @@ const vehicles = ({ vehicleFromServer }) => {
                 </div>
                 <div className="vehicleDetails__main-details">
                     <div className="vehicleDetails__main-details-title">
-                        <p className="">{vehicle?.title}</p>
+                        <p className="">{vehicle?.mark} {vehicle?.model} {vehicle?.generation}</p>
                         {vehicle?.confirmation === true ?
                             <img src="/confirmation.svg" alt="" />
                             :
@@ -191,6 +210,48 @@ const vehicles = ({ vehicleFromServer }) => {
                         }
                     </div>
                     <div className="vehicleDetails__main-details-propertys">
+                        <div className="vehicleDetails__main-details-propertys-item">
+                            <p>Поколение:</p> <p className="vehicleDetails__main-details-prop">{vehicle.generation}</p>
+                        </div>
+                        <div className="vehicleDetails__main-details-propertys-item">
+                            <p>Год выпуска:</p> <p className="vehicleDetails__main-details-prop">{vehicle.year}</p>
+                        </div>
+                        <div className="vehicleDetails__main-details-propertys-item">
+                            <p>Пробег:</p> <p className="vehicleDetails__main-details-prop">{vehicle.mileage}</p>
+                        </div>
+                        <div className="vehicleDetails__main-details-propertys-item">
+                            <p>Кузов:</p> <p className="vehicleDetails__main-details-prop">{vehicle.bodyType}</p>
+                        </div>
+                        <div className="vehicleDetails__main-details-propertys-item">
+                            <p>Цвет:</p> <p className="vehicleDetails__main-details-prop">{vehicle.color}</p>
+                        </div>
+                        <div className="vehicleDetails__main-details-propertys-item">
+                            <p>Двигатель:</p> <p className="vehicleDetails__main-details-prop">{vehicle.fuel}</p>
+                        </div>
+                        <div className="vehicleDetails__main-details-propertys-item">
+                            <p>Мощность:</p> <p className="vehicleDetails__main-details-prop">{vehicle.modification}</p>
+                        </div>
+                        <div className="vehicleDetails__main-details-propertys-item">
+                            <p>Объем:</p> <p className="vehicleDetails__main-details-prop">{vehicle.volume}</p>
+                        </div>
+                        <div className="vehicleDetails__main-details-propertys-item">
+                            <p>Расход:</p> <p className="vehicleDetails__main-details-prop">{vehicle.consumption}</p>
+                        </div>
+                        <div className="vehicleDetails__main-details-propertys-item">
+                            <p>Комплектация:</p> <p className="vehicleDetails__main-details-prop">{vehicle.complication}</p>
+                        </div>
+                        <div className="vehicleDetails__main-details-propertys-item">
+                            <p>Коробка:</p> <p className="vehicleDetails__main-details-prop">{vehicle.transmission}</p>
+                        </div>
+                        <div className="vehicleDetails__main-details-propertys-item">
+                            <p>Привод:</p> <p className="vehicleDetails__main-details-prop">{vehicle.drive}</p>
+                        </div>
+                        <div className="vehicleDetails__main-details-propertys-item">
+                            <p>Руль:</p> <p className="vehicleDetails__main-details-prop">{vehicle.driveHand}</p>
+                        </div>
+                        <div className="vehicleDetails__main-details-propertys-item">
+                            <p>Состояние:</p> <p className="vehicleDetails__main-details-prop">{vehicle.state}</p>
+                        </div>
                         {vehicle.details ? vehicle?.details.map((el) => {
                             return <div className="vehicleDetails__main-details-propertys-item"><p>{el.split(":")[0]}:</p><p className="vehicleDetails__main-details-prop">{el.split(":")[1]}</p></div>
                         }) : ""}
@@ -198,13 +259,19 @@ const vehicles = ({ vehicleFromServer }) => {
                     <div className="vehicleDetails__main-details__footerWrapper">
                         <div className="vehicleDetails__main-details__footer">
                             <div className="vehicleDetails__main-details__footer-item">
-                                <p>{vehicle?.price.toLocaleString()}₽</p>
+                                <p>{Number(vehicle?.price).toLocaleString()}₽</p>
                             </div>
                             <div className="vehicleDetails__main-details__footer-item">
                                 <img src="/heart.webp" alt="like" />
                             </div>
                             <div className="vehicleDetails__main-details__footer-item">
-                                <img src="/phone.svg" alt="phone" />
+                                <img src="/phone.svg" alt="phone" onClick={() => {
+                                    setModal(
+                                        <div className="vehicleDetails__main-details__footer-item-phoneWrapper">
+                                            <h2 className="vehicleDetails__main-details__footer-item-phone">{userOfAd.phone}</h2>
+                                        </div>
+                                    )
+                                }} />
                             </div>
                             <div className="vehicleDetails__main-details__footer-item">
                                 <img src="/email.svg" alt="email" />
@@ -213,8 +280,18 @@ const vehicles = ({ vehicleFromServer }) => {
                     </div>
                 </div>
             </div>
+            <div className="vehicleDetails__user">
+                <div className="vehicleDetails__user-infoOfUser">
+                    <img className="vehicleDetails__user-logo" src={`${apiUrl}${userOfAdState.logo}`} alt={""} />
+                    <p className="vehicleDetails__user-name">{userOfAdState.lfpOrNick == "lfp" ? userOfAdState.lfp : userOfAdState.nick}</p>
+                </div>
+                <div className="vehicleDetails__user-infoOfAddress">
+                    <img className="vehicleDetails__user-mapIcon" src={"/nextarrow.webp"} alt={""} />
+                    <p className="vehicleDetails__user-address">{vehicle.address}</p>
+                </div>
+            </div>
             <div className="vehicleDetails__package">
-                <h4 className="vehicleDetails__package-title">Комплектация: <span className="vehicleDetails__package-title-colored">{vehicle?.package}</span></h4>
+                <h4 className="vehicleDetails__package-title">Комплектация: <span className="vehicleDetails__package-title-colored">{vehicle?.generation}</span></h4>
                 <div className="vehicleDetails__package-mainWrapper">
                     <Swiper
                         className='vehicleDetails__package-main'
@@ -262,13 +339,7 @@ const vehicles = ({ vehicleFromServer }) => {
             <div className="vehicleDetails__comment">
                 <p className="vehicleDetails__comment-title">Комментарий продавца:</p>
                 <p className="vehicleDetails__comment-main">
-                    Полный сток<br />
-                    На гарантии до мая 2023г.<br />
-                    ТО каждые 5 т.км., последнее 1000 км назад<br />
-                    В идеальном техническом и внешнем состоянии, ни одной крашеной детали.<br />
-                    Полный карбон m-performance<br />
-                    Авто полностью в пленке Suntek<br />
-                    Очень редкое сочетание цвета солона<br />
+                    {vehicle.comment}
                 </p>
             </div>
             <div className="vehicleDetails__adsComps">
