@@ -47,7 +47,7 @@ const Users = ({ userInf }) => {
                 {console.log(userInf.user)}
                 <UserMain userInf={userInf.user} auth={authd} />
                 <UserPageAddAnnouncement />
-                <YourAnnouncement />
+                <YourAnnouncement ads={userInf.user.advertisements} />
             </div>
             <div className="userAnnouncements">
                 <CatalogTiles tiles={userInf.user.advertisements} />

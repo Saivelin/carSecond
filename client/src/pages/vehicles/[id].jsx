@@ -12,6 +12,7 @@ import { apiUrl } from "@/vars";
 import Head from "next/head";
 import { useSetRecoilState } from "recoil";
 import { modalState } from "@/state/atoms";
+import Link from "next/link";
 
 export const getServerSideProps = async (context) => {
     const { id } = context.params
@@ -281,10 +282,10 @@ const vehicles = ({ vehicleFromServer, userOfAd }) => {
                 </div>
             </div>
             <div className="vehicleDetails__user">
-                <div className="vehicleDetails__user-infoOfUser">
+                <Link href={`/users/${userOfAdState.id}`} className="vehicleDetails__user-infoOfUser">
                     <img className="vehicleDetails__user-logo" src={`${apiUrl}${userOfAdState.logo}`} alt={""} />
                     <p className="vehicleDetails__user-name">{userOfAdState.lfpOrNick == "lfp" ? userOfAdState.lfp : userOfAdState.nick}</p>
-                </div>
+                </Link>
                 <div className="vehicleDetails__user-infoOfAddress">
                     <img className="vehicleDetails__user-mapIcon" src={"/nextarrow.webp"} alt={""} />
                     <p className="vehicleDetails__user-address">{vehicle.address}</p>

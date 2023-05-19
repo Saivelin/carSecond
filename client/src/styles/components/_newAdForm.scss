@@ -102,7 +102,7 @@
 
 
 
-   &__right{
+    &__right{
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -118,7 +118,7 @@
 					display: flex;
 					column-gap: 5px;
 					&>label{
-						 font-weight: 500;
+					    font-weight: 500;
 					}
 				}
 		}
@@ -235,11 +235,11 @@
 			margin: 25px 0 0 0;
 
 		}
-		&-sectionThree{
-			margin-top: max(150px, 15%);
-		}
+			&-sectionThree {
+                margin-top: max(30px, 3%);
+            }
 		&-sectionFour{
-			margin-top: max(150px, 15%);
+                margin-top: max(30px, 3%);
 		}
    }
    &__left{
@@ -287,10 +287,10 @@
 			margin: 25px 0 0 0;
 		}
 		&-sectionThree{
-			margin-top: max(150px, 15%);
+                margin-top: max(30px, 3%);
 		}
 		&-sectionFour{
-			margin-top: max(150px, 15%);
+                margin-top: max(30px, 3%);
 		}
    }
 	&__promtSystem{
@@ -299,8 +299,7 @@
 		align-items: center;
 		grid-template-columns: 1fr 2fr;
 		column-gap: min(90px, 10%);
-		margin: max(15px, 15%) auto max(15px, 15%) auto;
-		max-width: 90%;
+        margin-top: max(30px, 3%);
 		&-image{
 			width: 100%;
 			border-radius: 10px;

@@ -123,7 +123,7 @@ class UserController {
                 const ad = await Advertisement.findOne({ where: { id: id } })
                 const uid = ad.toJSON().userId;
                 const user = await User.findOne({ where: { id: uid } })
-                return res.json({ lfp: user.lfp, phone: user.phone, role: user.role, logo: user.logo, lfpOrNick: user.lfpOrNick, nick: user.nick })
+                return res.json({ id: id, lfp: user.lfp, phone: user.phone, role: user.role, logo: user.logo, lfpOrNick: user.lfpOrNick, nick: user.nick })
             }
             return res.json({ message: "Not valuable id" })
         }

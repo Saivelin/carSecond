@@ -56,7 +56,7 @@ const CatalogTile = ({ tile, doubled, imgs }) => {
                         <p>{doubled === true ? "Состояние: " + String(tile?.condition) : tile?.condition}</p>
                     </div>
                 </div>
-                {!doubled ? <p className='catalogTile__price'>{(tile?.price).toLocaleString()}₽</p> : ""}
+                {!doubled ? <p className='catalogTile__price'>{Number(tile?.price).toLocaleString()}₽</p> : ""}
             </div>
             {doubled === true ?
                 <div className="catalogTile__footer">

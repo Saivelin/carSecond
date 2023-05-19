@@ -53,7 +53,6 @@ const NewAdForm = ({ classes, propertyes }) => {
                     </div>
                 </label>
                 <div className="newAdForm__left-inputsWrapper">
-                    <NewAdSelect placeholder={"Тип документа ПТС"} />
                     <div className="newAdForm__left-document">
                         <label className="radioWrapper" htmlFor="original">
                             <input type="radio" id="original" name="document" className="radioWrapper__radio" />
@@ -85,9 +84,8 @@ const NewAdForm = ({ classes, propertyes }) => {
                 <NewAdSelect placeholder={"Марка"} />
                 <NewAdSelect placeholder={"Модель"} />
                 <NewAdSelect placeholder={"Поколение"} />
-                <NewAdSelect placeholder={"Год выпуска"} />
+                <input type="text" className="newAdForm__input-primary" placeholder="Пробег, км" />
                 <NewAdSelect placeholder={"Тип кузова"} />
-                <NewAdSelect placeholder={"Двигатель"} />
                 <div className="newAdForm__right-flexAuto">
                     <label className="radioWrapper" htmlFor="autoBox">
                         <input type="radio" id="autoBox" name="transmission" className="radioWrapper__radio" />
@@ -167,11 +165,6 @@ const NewAdForm = ({ classes, propertyes }) => {
                     </div>
                 </div>
             </div>
-
-
-
-
-
             <div className="newAdForm__left newAdForm__left-sectionThree">
                 <div className="newAdForm__left-inputsWrapper ">
                     <NewAdSelect placeholder={"Повреждения"} />
@@ -220,7 +213,7 @@ const NewAdForm = ({ classes, propertyes }) => {
                         <label htmlFor="garant">Отказ от звонков партнёров</label>
                     </div>
                 </div>
-                <NewAdSelect placeholder={"Место осмотра Город / улица / район"} />
+                <input type="text" className="newAdForm__input-primary" placeholder="Место осмотра Город / улица / район" />
                 <div className="newAdForm__addImageForNewAdWrapper">
                     <div className="newAdForm__addImageForNewAdWrapper-content">
                         <p>КАРТА</p>
@@ -232,7 +225,7 @@ const NewAdForm = ({ classes, propertyes }) => {
 
             <div className="newAdForm__left newAdForm__left-sectionFour">
                 <div className="newAdForm__left-inputsWrapper ">
-                    <NewAdSelect placeholder={"Цена в РУБ"} />
+                    <input type="text" className="newAdForm__input-primary" placeholder="Место осмотра Город / улица / район" />
                     <div className="newAdForm__left-rightLeft">
                         <div>
                             <input type="checkbox" id="garant" />
@@ -242,8 +235,8 @@ const NewAdForm = ({ classes, propertyes }) => {
                 </div>
             </div>
             <div className="newAdForm__right newAdForm__right-sectionFour">
-                <NewAdSelect placeholder={"Госномер"} />
-                <NewAdSelect placeholder={"VIN / номер кузова"} />
+                <input type="text" className="newAdForm__input-primary" placeholder="Место осмотра Город / улица / район" />
+                <input type="text" className="newAdForm__input-primary" placeholder="Место осмотра Город / улица / район" />
                 <NewAdSelect placeholder={"Свидетельство о регистрации (СТС)"} />
                 <div className="newAdForm__right-rightLeft">
                     <div>
