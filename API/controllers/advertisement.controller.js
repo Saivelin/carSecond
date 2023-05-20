@@ -45,16 +45,7 @@ class UserController {
             if (!mark || !model || !generation || !userId) {
                 return res.status(400).json({ status: false })
             }
-            files.forEach((img) => {
-                let fileName = uuid.v4() + ".png"
-                if (img) {
-                    if (img.mimetype.split("/")[0] != "image") {
-                        return res.json({ status: false })
-                    }
-                    img.mv('./uploads/' + fileName);
-                }
-                img.fileName = fileName;
-            })
+
 
             const newAdvertisement = await Advertisement.create(
                 {
@@ -87,7 +78,20 @@ class UserController {
                     whenVehicleBought,
                     typeOfDocument,
                 })
+            files.forEach((img) => {
+                let fileName = uuid.v4() + ".png"
+                if (img) {
+                    if (img.mimetype.split("/")[0] != "image") {
+                        return res.json({ status: false })
+                    }
+                    img.mv('./uploads/' + fileName);
+                }
+                img.fileName = fileName;
+            })
             await uploadImages(files, newAdvertisement.id)
+
+
+
             return res.status(200).json({ status: true, newAdvertisement })
         } catch (e) {
             res.status(400).json({ status: false, errorName: e })

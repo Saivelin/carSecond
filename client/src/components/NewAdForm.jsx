@@ -2,7 +2,7 @@ import { Input, Textarea } from "@chakra-ui/react";
 import NewAdSelect from "./UI/NewAdSelect"
 import Promo from "@/components/Promo";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios, { Axios } from "axios";
 import { user } from "@/state/atoms";
 import { useRecoilValue } from "recoil";
@@ -98,6 +98,7 @@ const NewAdForm = ({ classes, propertyes, userNow }) => {
         formDat.append("model", modelNow)
         formDat.append("generation", "1")
         formDat.append("userId", userAuthd.id)
+        formDat.append("imgs", refInputImages.current.files)
 
         // drive,
         // modification,
@@ -112,22 +113,23 @@ const NewAdForm = ({ classes, propertyes, userNow }) => {
         for (let pair of formDat.entries()) {
             console.log(pair[0] + ' - ' + pair[1]);
         }
-        axios.post(`${apiUrl}api/advertisement/add`, formDat).then((res) => { console.log(res) })
+        // axios.post(`${apiUrl}api/advertisement/add`, formDat).then((res) => { console.log(res) })
         axios({
             method: "post",
             url: `${apiUrl}api/advertisement/add`,
             data: formDat,
             headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${localStorage.getItem('token')}` }
-        }).then(() => { })
+        })
     }
 
+    const refInputImages = useRef()
 
     return (
 
         <form className={classes ? "newAdForm " + classes : "newAdForm"} onSubmit={handleSubmit}>
             <div className="newAdForm__left newAdForm__left-sectionOne">
                 <label htmlFor="addImageForNewAd">
-                    <input type="file" size={"md"} id="addImageForNewAd" className="newAdForm__addImageForNewAd" name="photo" />
+                    <input ref={refInputImages} type="file" size={"md"} id="addImageForNewAd" className="newAdForm__addImageForNewAd" name="photo" />
                     <div className="newAdForm__addImageForNewAdWrapper">
                         <div className="newAdForm__addImageForNewAdWrapper-content">
                             <img src="/addPhoto.svg" alt="" />
