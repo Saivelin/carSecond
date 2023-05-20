@@ -2,7 +2,7 @@ import { modalState } from "../state/atoms.js"
 import { useRecoilState, useSetRecoilState } from "recoil"
 import NewAdForm from "./NewAdForm.jsx";
 
-const UserPageAddAnnouncement = () => {
+const UserPageAddAnnouncement = ({ userNow }) => {
     const setModal = useSetRecoilState(modalState)
 
     return (
@@ -12,7 +12,7 @@ const UserPageAddAnnouncement = () => {
                 <h5>Выставить на продажу - легко</h5>
                 <p>Создайте объявление, и его увидят тысячи покупателей</p>
             </div>
-            <button onClick={() => { setModal(<NewAdForm />) }} className="userPageAddAnnouncement__createBtn">Создать объявление</button>
+            <button onClick={() => { setModal(<NewAdForm userNow={userNow} />) }} className="userPageAddAnnouncement__createBtn">Создать объявление</button>
         </div>
     );
 };

@@ -46,7 +46,7 @@ const Users = ({ userInf }) => {
             <div className="userMain">
                 {console.log(userInf.user)}
                 <UserMain userInf={userInf.user} auth={authd} />
-                <UserPageAddAnnouncement />
+                <UserPageAddAnnouncement userNow={userInf.user} />
                 <YourAnnouncement ads={userInf.user.advertisements} />
             </div>
             <div className="userAnnouncements">

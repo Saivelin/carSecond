@@ -2,9 +2,60 @@ import { Input, Textarea } from "@chakra-ui/react";
 import NewAdSelect from "./UI/NewAdSelect"
 import Promo from "@/components/Promo";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import axios, { Axios } from "axios";
+import { user } from "@/state/atoms";
+import { useRecoilValue } from "recoil";
+import { apiUrl } from "@/vars";
 
 
-const NewAdForm = ({ classes, propertyes }) => {
+const NewAdForm = ({ classes, propertyes, userNow }) => {
+    const userAuthd = useRecoilValue(user)
+
+    const [marks, setMarks] = useState([{ name: "BMW", value: "BMW" }]);
+    const [markNow, setMarkNow] = useState(false);
+
+    const [models, setModels] = useState([]);
+    const [modelNow, setModelNow] = useState(false);
+
+    const [generation, setGeneration] = useState([]);
+    const [generationNow, setGenerationNow] = useState(false);
+
+    useEffect(() => {
+        // getMarksOfCars()
+        getAnyForSelect("https://cars-base.ru/api/cars/", "name", setMarks)
+    }, [])
+
+    useEffect(() => {
+        console.log(markNow)
+        if (markNow) {
+            getAnyForSelect(`https://cars-base.ru/api/cars/${markNow}`, "name", setModels)
+        }
+    }, [markNow])
+
+    useEffect(() => {
+        console.log(modelNow)
+        if (modelNow) {
+            getAnyForSelect(`https://cars-base.ru/api/cars/${markNow}/${modelNow}?key=399f98497`, "name", setGeneration)
+        }
+    }, [modelNow])
+
+
+    const getAnyForSelect = async (url, titleOfVal, setter) => {
+        await axios.get(url).then((res) => {
+            let newAny = []
+            console.log(res.data)
+            res.data.forEach((el) => {
+                newAny.push({ name: el[titleOfVal], value: el.id })
+            })
+            setter(newAny)
+        })
+    }
+
+
+    const [driveNow, setDriveNow] = useState()
+    const [transmission, setTransmission] = useState()
+
     const filterColors = (inputValue) => {
         return colourOptions.filter((i) =>
             i.label.toLowerCase().includes(inputValue.toLowerCase())
@@ -38,13 +89,45 @@ const NewAdForm = ({ classes, propertyes }) => {
         visible: { opacity: 1, x: 0 },
         hidden: { opacity: 0, x: 10 },
     }
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        let formDat = new FormData(e.target)
+        formDat.append("mark", markNow)
+        formDat.append("model", modelNow)
+        formDat.append("generation", "1")
+        formDat.append("userId", userAuthd.id)
+
+        // drive,
+        // modification,
+        // features,
+        // howToContactType,
+        // vin,
+        // price,
+        // cleared,
+        // whenVehicleBought,
+        // typeOfDocument,
+
+        for (let pair of formDat.entries()) {
+            console.log(pair[0] + ' - ' + pair[1]);
+        }
+        axios.post(`${apiUrl}api/advertisement/add`, formDat).then((res) => { console.log(res) })
+        axios({
+            method: "post",
+            url: `${apiUrl}api/advertisement/add`,
+            data: formDat,
+            headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${localStorage.getItem('token')}` }
+        }).then(() => { })
+    }
+
+
     return (
 
-        <form className={classes ? "newAdForm " + classes : "newAdForm"}>
-
+        <form className={classes ? "newAdForm " + classes : "newAdForm"} onSubmit={handleSubmit}>
             <div className="newAdForm__left newAdForm__left-sectionOne">
                 <label htmlFor="addImageForNewAd">
-                    <input type="file" size={"md"} id="addImageForNewAd" className="newAdForm__addImageForNewAd" />
+                    <input type="file" size={"md"} id="addImageForNewAd" className="newAdForm__addImageForNewAd" name="photo" />
                     <div className="newAdForm__addImageForNewAdWrapper">
                         <div className="newAdForm__addImageForNewAdWrapper-content">
                             <img src="/addPhoto.svg" alt="" />
@@ -54,50 +137,65 @@ const NewAdForm = ({ classes, propertyes }) => {
                 </label>
                 <div className="newAdForm__left-inputsWrapper">
                     <div className="newAdForm__left-document">
-                        <label className="radioWrapper" htmlFor="original">
+                        <label className="radioWrapper" htmlFor="originalDocType">
+                            <input value={"Бензин"} type="radio" id="originalDocType" name="carRegistrationCertificate" className="radioWrapper__radio" />
+                            <div className="transmissionWrapper" style={{ textAlign: "center", display: "block" }}>Оригинал / Электронный ПТС</div>
+                        </label>
+                        <label className="radioWrapper" htmlFor="duplicateDocType">
+                            <input value={"Дубликат"} type="radio" id="duplicateDocType" name="carRegistrationCertificate" className="radioWrapper__radio" />
+                            <div className="transmissionWrapper" style={{ textAlign: "center", display: "block" }}>Дубликат</div>
+                        </label>
+                        <label className="radioWrapper" htmlFor="noneDocumentType">
+                            <input value={"Нет ПТС"} type="radio" id="noneDocumentType" name="carRegistrationCertificate" className="radioWrapper__radio" />
+                            <div className="transmissionWrapper" style={{ textAlign: "center", display: "block" }}>Нет ПТС</div>
+                        </label>
+                        {/* <label className="radioWrapper" htmlFor="original">
                             <input type="radio" id="original" name="document" className="radioWrapper__radio" />
-                            <div className="documentWrapper"><span>Оригинал / Электронный ПТС</span></div>
+                            <div className="documentWrapper">Оригинал / Электронный ПТС</div>
                         </label>
                         <label className="radioWrapper" htmlFor="duplicate">
                             <input type="radio" id="duplicate" name="document" className="radioWrapper__radio" />
-                            <div className="documentWrapper"><span>Дубликат</span></div>
+                            <div className="documentWrapper">Дубликат</div>
                         </label>
                         <label className="radioWrapper" htmlFor="noneDocument">
                             <input type="radio" id="noneDocument" name="document" className="radioWrapper__radio" />
-                            <div className="documentWrapper"><span>Нет ПТС</span></div>
-                        </label>
+                            <div className="documentWrapper">Нет ПТС</div>
+                        </label> */}
                     </div>
                     <input type="date" className="newAdForm__input-primary" placeholder="Когда было куплено авто" />
                     <div className="newAdForm__left-rightLeft">
                         <div>
-                            <input type="checkbox" id="garant" />
+                            <input type="checkbox" id="garant" name="isUnderWarranty" />
                             <label htmlFor="garant">На гарантии</label>
                         </div>
                         <div>
-                            <input type="checkbox" id="rastomoge" />
+                            <input type="checkbox" id="rastomoge" name="cleared" />
                             <label htmlFor="rastomoge">Не растоможено</label>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="newAdForm__right newAdForm__right-sectionOne">
-                <NewAdSelect placeholder={"Марка"} />
-                <NewAdSelect placeholder={"Модель"} />
-                <NewAdSelect placeholder={"Поколение"} />
-                <input type="text" className="newAdForm__input-primary" placeholder="Пробег, км" />
-                <NewAdSelect placeholder={"Тип кузова"} />
+                <NewAdSelect placeholder={"Марка"} options={marks} updateData={(value) => { setMarkNow(value) }} />
+                <NewAdSelect placeholder={"Модель"} options={models} disabled={markNow === false ? true : false} updateData={(value) => { setModelNow(value) }} />
+                <NewAdSelect placeholder={"Поколение"} options={generation} disabled={modelNow === false ? true : false} />
+                <input type="text" className="newAdForm__input-primary" placeholder="Год выпуска" name="year" />
+                <input type="text" className="newAdForm__input-primary" placeholder="Пробег, км" name="mileage" />
+                <input type="text" className="newAdForm__input-primary" placeholder="Тип кузова" name="bodyType" />
+                <input type="text" className="newAdForm__input-primary" placeholder="Гос номер" name="licensePlate" />
+                {/* <NewAdSelect placeholder={"Тип кузова"} /> */}
                 <div className="newAdForm__right-flexAuto">
                     <label className="radioWrapper" htmlFor="autoBox">
-                        <input type="radio" id="autoBox" name="transmission" className="radioWrapper__radio" />
+                        <input value={"Бензин"} type="radio" id="autoBox" name="fuel" className="radioWrapper__radio" />
                         <div className="transmissionWrapper"><img src="/desB.webp" alt="" /><span>Бензин</span></div>
                     </label>
                     <label className="radioWrapper" htmlFor="mechBox">
-                        <input type="radio" id="mechBox" name="transmission" className="radioWrapper__radio" />
+                        <input value={"Дизель"} type="radio" id="mechBox" name="fuel" className="radioWrapper__radio" />
                         <div className="transmissionWrapper"><img src="/desT.webp" alt="" /><span>Дизель</span></div>
                     </label>
                 </div>
-                <NewAdSelect placeholder={"Привод"} />
-                <NewAdSelect placeholder={"Коробка передач"} />
+                <NewAdSelect updateData={(value) => { setDriveNow(value) }} placeholder={"Привод"} options={[{ name: "Задний", value: "Задний" }, { name: "Полный", value: "Полный" }, { name: "Передний", value: "Передний" }]} />
+                <NewAdSelect updateData={(value) => { setTransmission(value) }} placeholder={"Коробка передач"} />
                 <NewAdSelect placeholder={"Модификация"} />
                 <div className="newAdForm__right-rightLeft">
                     <div>
@@ -125,23 +223,22 @@ const NewAdForm = ({ classes, propertyes }) => {
 
 
             <div className="newAdForm__left newAdForm__left-sectionTwo">
-
                 <div className="newAdForm__left-inputsWrapper">
-                    <textarea className="newAdForm__input-primary newAdForm__input-primary-text" placeholder="Ваш комментарий / описание" />
+                    <textarea className="newAdForm__input-primary newAdForm__input-primary-text" placeholder="Ваш комментарий / описание" name="comment" />
                     <div className="newAdForm__left-rightLeft">
                         <div>
-                            <input type="checkbox" id="garant" />
-                            <label htmlFor="garant">Моё объявление есть только на CarTron</label>
+                            <input type="checkbox" id="caTronOnly" name="caTronOnly" />
+                            <label htmlFor="caTronOnly">Моё объявление есть только на CarTron</label>
                         </div>
                         <div>
-                            <input type="checkbox" id="rastomoge" />
-                            <label htmlFor="rastomoge">Битый или не на ходу</label>
+                            <input type="checkbox" id="broken" name="broken" />
+                            <label htmlFor="broken">Битый или не на ходу</label>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="newAdForm__right newAdForm__right-sectionTwo">
-                <input type="text" className="newAdForm__input-primary" placeholder="Цвет" />
+                <input type="text" className="newAdForm__input-primary" placeholder="Цвет" name="color" />
                 <div className="newAdForm__right-colorSelection">
                     <input name="colorCar" type="radio" value="black" />
                     <input name="colorCar" type="radio" value="grey" />
@@ -156,18 +253,18 @@ const NewAdForm = ({ classes, propertyes }) => {
                     <input name="colorCar" type="radio" value="purple" />
                     <input name="colorCar" type="radio" value="yellow" />
                 </div>
-                <input type="text" className="newAdForm__input-primary" placeholder="Пробег, км" />
+                {/* <input type="text" className="newAdForm__input-primary" placeholder="Пробег, км" /> */}
                 <NewAdSelect placeholder={"Особенности"} />
                 <div className="newAdForm__right-rightLeft">
                     <div>
-                        <input type="checkbox" id="garant" />
-                        <label htmlFor="garant">Газобалонное оборудование</label>
+                        <input type="checkbox" id="gasFeature" name="gasFeature" />
+                        <label htmlFor="gasFeature">Газобалонное оборудование</label>
                     </div>
                 </div>
             </div>
             <div className="newAdForm__left newAdForm__left-sectionThree">
                 <div className="newAdForm__left-inputsWrapper ">
-                    <NewAdSelect placeholder={"Повреждения"} />
+                    {/* <NewAdSelect placeholder={"Повреждения"} /> */}
                     <div className="newAdForm__damageWrapper">
                         <div className="newAdForm__damageWrapper-content">
                             <img src="/damagePhoto.svg" alt="" />
@@ -177,8 +274,7 @@ const NewAdForm = ({ classes, propertyes }) => {
                 </div>
             </div>
             <div className="newAdForm__right newAdForm__right-sectionThree">
-                <input type="text" className="newAdForm__input-primary" placeholder="Как к вам обращаться? Частное лицо" />
-                <NewAdSelect placeholder={"Номер телефона"} />
+                <NewAdSelect placeholder={"Номер телефона"} options={[{ name: userNow.phone, value: userNow.phone }]} />
                 <div className="newAdForm__right-contact">
                     <label className="radioWrapper " htmlFor="">
                         <input type="radio" id="" name="contact" className="radioWrapper__radio" />
@@ -203,17 +299,17 @@ const NewAdForm = ({ classes, propertyes }) => {
                 </div>
                 <div className="newAdForm__right-rightLeft">
                     <div>
-                        <input type="checkbox" id="garant" />
-                        <label htmlFor="garant">Бесплатная защита от спама</label>
+                        <input type="checkbox" id="spanSecure" name="spanSecure" />
+                        <label htmlFor="spanSecure">Бесплатная защита от спама</label>
                     </div>
                 </div>
                 <div className="newAdForm__right-rightLeft">
                     <div>
-                        <input type="checkbox" id="garant" />
-                        <label htmlFor="garant">Отказ от звонков партнёров</label>
+                        <input type="checkbox" id="refusalToCall" name="refusalToCall" />
+                        <label htmlFor="refusalToCall">Отказ от звонков партнёров</label>
                     </div>
                 </div>
-                <input type="text" className="newAdForm__input-primary" placeholder="Место осмотра Город / улица / район" />
+                <input type="text" className="newAdForm__input-primary" placeholder="Место осмотра Город / улица / район" name="address" />
                 <div className="newAdForm__addImageForNewAdWrapper">
                     <div className="newAdForm__addImageForNewAdWrapper-content">
                         <p>КАРТА</p>
@@ -225,23 +321,22 @@ const NewAdForm = ({ classes, propertyes }) => {
 
             <div className="newAdForm__left newAdForm__left-sectionFour">
                 <div className="newAdForm__left-inputsWrapper ">
-                    <input type="text" className="newAdForm__input-primary" placeholder="Место осмотра Город / улица / район" />
                     <div className="newAdForm__left-rightLeft">
                         <div>
-                            <input type="checkbox" id="garant" />
-                            <label htmlFor="garant">Возможен обмен</label>
+                            <input type="checkbox" id="exchange" name="exchange" />
+                            <label htmlFor="exchange">Возможен обмен</label>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="newAdForm__right newAdForm__right-sectionFour">
-                <input type="text" className="newAdForm__input-primary" placeholder="Место осмотра Город / улица / район" />
-                <input type="text" className="newAdForm__input-primary" placeholder="Место осмотра Город / улица / район" />
+                {/* <input type="text" className="newAdForm__input-primary" placeholder="Место осмотра Город / улица / район" /> */}
+                {/* <input type="text" className="newAdForm__input-primary" placeholder="Место осмотра Город / улица / район" /> */}
                 <NewAdSelect placeholder={"Свидетельство о регистрации (СТС)"} />
                 <div className="newAdForm__right-rightLeft">
                     <div>
-                        <input type="checkbox" id="garant" />
-                        <label htmlFor="garant">Авто не на учёте в РФ</label>
+                        <input type="checkbox" id="notRegisteredInRF" name="notRegisteredInRF" />
+                        <label htmlFor="notRegisteredInRF">Авто не на учёте в РФ</label>
                     </div>
                 </div>
             </div>

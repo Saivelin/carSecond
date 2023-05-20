@@ -40,6 +40,7 @@ class UserController {
                 typeOfDocument,
                 userId } = req.body
             const files = Object.values(req.files);
+            console.log(req.body)
 
             if (!mark || !model || !generation || !userId) {
                 return res.status(400).json({ status: false })

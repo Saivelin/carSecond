@@ -458,13 +458,11 @@
 
 .radioWrapper {
     &__radio {
-
         &:checked+.transmissionWrapper,
         .documentWrapper,
         .contactWrapper {
             @include inside-shadow;
         }
-
         display: none;
     }
 }

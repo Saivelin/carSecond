@@ -43,7 +43,7 @@ const EditUserProfile = ({ userInf }) => {
         }
         axios({
             method: "post",
-            url: "http://localhost:3005/api/user/update",
+            url: `${apiUrl}api/user/update`,
             data: formDat,
             headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${localStorage.getItem('token')}` }
         }).then(() => { })
