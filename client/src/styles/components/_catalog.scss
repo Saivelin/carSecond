@@ -3,4 +3,8 @@
     grid-template-columns: repeat(11, 1fr);
     margin: 10px clamp(30px, 5%, 200px);
     column-gap: clamp(10px, 2%, 100px);
+    &__pagePagination{
+        grid-column-start: 4;
+        grid-column-end: 12;
+    }
 }

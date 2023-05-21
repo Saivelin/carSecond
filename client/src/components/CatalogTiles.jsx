@@ -1,10 +1,10 @@
 import CatalogTile from "./CatalogTile";
 import { useEffect, useState } from "react";
 import { apiUrl } from "@/vars";
+import { Skeleton, SkeletonCircle, SkeletonText } from '@chakra-ui/react'
 
 const CatalogTiles = ({ tiles }) => {
-    const [advertisements, setAdvertisements] = useState(tiles)
-
+    console.log(tiles)
     const test = [{
         id: 1,
         img: "/test.png",
@@ -41,21 +41,50 @@ const CatalogTiles = ({ tiles }) => {
         <>
             {!tiles ?
                 <div className="catalogTiles catalogTiles-three">
-                    <CatalogTile tile={test[0]} doubled={true} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
-                    <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
-                    <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
-                    <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
-                    <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
-                    <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
-                    <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
-                    <CatalogTile tile={test[0]} doubled={true} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
-                    <CatalogTile tile={test[0]} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    <Skeleton startColor="#4069c933" endColor="#2965fe21">
+                        <CatalogTile tile={test[0]} doubled={true} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    </Skeleton>
+                    <Skeleton startColor="#4069c933" endColor="#2965fe21">
+                        <CatalogTile tile={test[0]} doubled={true} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    </Skeleton>
+                    <Skeleton startColor="#4069c933" endColor="#2965fe21">
+                        <CatalogTile tile={test[0]} doubled={true} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    </Skeleton>
+                    <Skeleton startColor="#4069c933" endColor="#2965fe21">
+                        <CatalogTile tile={test[0]} doubled={true} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    </Skeleton>
+                    <Skeleton startColor="#4069c933" endColor="#2965fe21">
+                        <CatalogTile tile={test[0]} doubled={true} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    </Skeleton>
+                    <Skeleton startColor="#4069c933" endColor="#2965fe21">
+                        <CatalogTile tile={test[0]} doubled={true} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    </Skeleton>
+                    <Skeleton startColor="#4069c933" endColor="#2965fe21">
+                        <CatalogTile tile={test[0]} doubled={true} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    </Skeleton>
+                    <Skeleton startColor="#4069c933" endColor="#2965fe21">
+                        <CatalogTile tile={test[0]} doubled={true} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    </Skeleton>
+                    <Skeleton startColor="#4069c933" endColor="#2965fe21">
+                        <CatalogTile tile={test[0]} doubled={true} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    </Skeleton>
+                    <Skeleton startColor="#4069c933" endColor="#2965fe21">
+                        <CatalogTile tile={test[0]} doubled={true} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    </Skeleton>
+                    <Skeleton startColor="#4069c933" endColor="#2965fe21">
+                        <CatalogTile tile={test[0]} doubled={true} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    </Skeleton>
+                    <Skeleton startColor="#4069c933" endColor="#2965fe21">
+                        <CatalogTile tile={test[0]} doubled={true} imgs={["/test.png", "/test1.png", "/test2.png", "/test3.png",]} />
+                    </Skeleton>
                 </div>
                 :
                 <div className="catalogTiles catalogTiles-three">
-                    {tiles.map((el, i) => {
-                        return <CatalogTile key={i} tile={el} imgs={el.photoForAdvertisements} />
-                    })}
+                    {
+                        tiles.map((el, i) => {
+                            return <div className="catalogTile__wrapper"><CatalogTile key={el.id} tile={el} imgs={el.photoForAdvertisements} /></div>
+                        })
+                    }
                 </div>
             }
         </>
