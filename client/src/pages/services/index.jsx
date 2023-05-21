@@ -26,9 +26,9 @@ const index = () => {
 
     return (
         <div>
-            <div className="services__mainImgWrapper">
+            <motion.div initial={{ opacity: 0.7 }} whileInView={{ opacity: 1 }} className="services__mainImgWrapper">
                 <p>Сервисы CarTron</p>
-            </div>
+            </motion.div>
             <motion.div className='services' initial="hidden" whileInView="visible" variants={list}>
                 <motion.div className="services__item" variants={item}>
                     <Promo

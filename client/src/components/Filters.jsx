@@ -5,6 +5,7 @@ import FilterSelect from './UI/FilterSelect';
 import InputPrimary from './UI/InputPrimary';
 import { useEffect } from 'react';
 import axios from 'axios';
+import { motion } from 'framer-motion';
 
 const Filters = () => {
     const [count, setCount] = useState(318);
@@ -60,14 +61,18 @@ const Filters = () => {
     }
 
     return (
-        <div className='filter'>
+        <motion.div
+            className='filter'
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+        >
             <NewAdSelect placeholder={"Марка"} options={marks} updateData={(value) => { setMarkNow(value) }} />
             <NewAdSelect placeholder={"Модель"} options={models} disabled={markNow === false ? true : false} updateData={(value) => { setModelNow(value) }} />
             <NewAdSelect placeholder={"Поколение"} options={generation} disabled={modelNow === false ? true : false} />
             <NewAdSelect placeholder={"Кузов"} />
-            <NewAdSelect placeholder={"Коробка"} />
+            <NewAdSelect placeholder={"Коробка"} options={[{ value: "Автомат", name: "Автомат" }, { value: "Механика", name: "Механика" }]} />
             <NewAdSelect placeholder={"Двигатель"} />
-            <NewAdSelect placeholder={"Привод"} />
+            <NewAdSelect placeholder={"Привод"} options={[{ value: "Задний", name: "Задний" }, { value: "Передний", name: "Передний" }, { value: "Полный", name: "Полный" }]} />
             <div className="filter__twoInOne">
                 <InputPrimary classes="input-filter" placeholder="Цена от" />
                 <InputPrimary classes="input-filter" placeholder="Цена до" />
@@ -83,7 +88,7 @@ const Filters = () => {
             <FilterBtn>
                 Показать {count} предложений
             </FilterBtn>
-        </div>
+        </motion.div>
     );
 };
 

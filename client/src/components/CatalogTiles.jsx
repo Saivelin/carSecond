@@ -103,6 +103,9 @@ const CatalogTiles = ({ tiles }) => {
                     </AnimatePresence>
                 </div>
             }
+            {tiles && !tiles[0] ?
+                <p>Пока здесь ничего нет</p>
+                : ""}
         </>
     );
 };

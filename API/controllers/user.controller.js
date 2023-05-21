@@ -107,7 +107,7 @@ class UserController {
             if (id && Number(id)) {
                 const user = await User.findOne({ where: { id } })
                 const advertisements = await Advertisement.findAll({ where: { userId: user.id }, include: { model: photoForAdvertisement, attributes: ["url"] } })
-                return res.json({ user: { id: user.id, lfp: user.lfp, phone: user.phone, nick: user.nick, logo: user.logo, lfpOrNick: user.lfpOrNick, about: user.about, role: user.role, advertisements: advertisements } })
+                return res.json({ user: { id: user.id, lfp: user.lfp, phone: user.phone, nick: user.nick, logo: user.logo, lfpOrNick: user.lfpOrNick, about: user.about, role: user.role, advertisements: advertisements, headerImageForDealer: user.headerImageForDealer } })
             }
             return res.json({ message: "Not valuable id" })
         }

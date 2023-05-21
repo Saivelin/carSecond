@@ -11,7 +11,7 @@ import WrapperCatalogTilesPagination from "./WrapperCatalogTilesPagination";
 const Catalog = () => {
     const [ads, setAds] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
-    const [postsPerPage] = useState(3)
+    const [postsPerPage] = useState(12)
 
     const indexOfLastAd = currentPage * postsPerPage
     const indexOfFirstAd = indexOfLastAd - postsPerPage

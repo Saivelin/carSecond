@@ -258,14 +258,16 @@ const vehicles = ({ vehicleFromServer, userOfAd }) => {
                         }) : ""}
                     </div>
                     <div className="vehicleDetails__main-details__footerWrapper">
-                        <div className="vehicleDetails__main-details__footer">
-                            <div className="vehicleDetails__main-details__footer-item">
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }} transition={{ duration: .3, ease: "easeIn" }} animate={{ opacity: 1, y: 0 }}
+                            className="vehicleDetails__main-details__footer">
+                            <motion.div className="vehicleDetails__main-details__footer-item">
                                 <p>{Number(vehicle?.price).toLocaleString()}₽</p>
-                            </div>
-                            <div className="vehicleDetails__main-details__footer-item">
+                            </motion.div>
+                            <motion.div className="vehicleDetails__main-details__footer-item">
                                 <img src="/heart.webp" alt="like" />
-                            </div>
-                            <div className="vehicleDetails__main-details__footer-item">
+                            </motion.div>
+                            <motion.div className="vehicleDetails__main-details__footer-item">
                                 <img src="/phone.svg" alt="phone" onClick={() => {
                                     setModal(
                                         <div className="vehicleDetails__main-details__footer-item-phoneWrapper">
@@ -273,11 +275,11 @@ const vehicles = ({ vehicleFromServer, userOfAd }) => {
                                         </div>
                                     )
                                 }} />
-                            </div>
-                            <div className="vehicleDetails__main-details__footer-item">
+                            </motion.div>
+                            <motion.div className="vehicleDetails__main-details__footer-item">
                                 <img src="/email.svg" alt="email" />
-                            </div>
-                        </div>
+                            </motion.div>
+                        </motion.div>
                     </div>
                 </div>
             </div>

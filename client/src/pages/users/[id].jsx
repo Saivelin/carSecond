@@ -24,7 +24,7 @@ const Users = ({ userInf }) => {
     console.log(router.asPath.split("/")[2])
     console.log(userInf)
     useEffect(() => {
-        if (userInf.user.role == "dialer") {
+        if (userInf.user.role == "dialer" && jwtDecode(localStorage.getItem("token")).id != router.asPath.split("/")[2]) {
             router.push(`/dialers/${userInf.user.id}`)
         }
         if (localStorage.getItem("token")) {
