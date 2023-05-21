@@ -1,6 +1,8 @@
 import CatalogTile from "./CatalogTile";
 import { useEffect, useState } from "react";
 import { apiUrl } from "@/vars";
+import { motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { Skeleton, SkeletonCircle, SkeletonText } from '@chakra-ui/react'
 
 const CatalogTiles = ({ tiles }) => {
@@ -80,11 +82,25 @@ const CatalogTiles = ({ tiles }) => {
                 </div>
                 :
                 <div className="catalogTiles catalogTiles-three">
-                    {
-                        tiles.map((el, i) => {
-                            return <div className="catalogTile__wrapper"><CatalogTile key={el.id} tile={el} imgs={el.photoForAdvertisements} /></div>
-                        })
-                    }
+                    <AnimatePresence initial={false}>
+                        {
+                            tiles.map((el, i) => (
+                                <motion.div
+                                    transition={{ duration: .2, ease: "easeIn" }}
+                                    key={i}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    className="catalogTile__wrapper">
+                                    <CatalogTile
+                                        tile={el}
+                                        imgs={el.photoForAdvertisements}
+                                        key={el.id}
+                                    />
+                                </motion.div>
+                            ))
+                        }
+                    </AnimatePresence>
                 </div>
             }
         </>

@@ -11,7 +11,7 @@ import WrapperCatalogTilesPagination from "./WrapperCatalogTilesPagination";
 const Catalog = () => {
     const [ads, setAds] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
-    const [postsPerPage] = useState(9)
+    const [postsPerPage] = useState(3)
 
     const indexOfLastAd = currentPage * postsPerPage
     const indexOfFirstAd = indexOfLastAd - postsPerPage
@@ -44,6 +44,7 @@ const Catalog = () => {
                 itemsPerPage={postsPerPage}
                 totalItems={ads.length}
                 paginate={paginate}
+                currentPage={currentPage}
             />
         </div>
     );
