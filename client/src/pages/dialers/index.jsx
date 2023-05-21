@@ -2,6 +2,7 @@ import DIlersMap from '@/components/DIlersMap';
 import DilersList from '@/components/DilersList';
 import React from 'react';
 import { getDealers } from '@/http/userAPI';
+import { motion } from 'framer-motion';
 
 export const getServerSideProps = async (context) => {
     const response = await getDealers()
@@ -13,7 +14,7 @@ export const getServerSideProps = async (context) => {
 
 const index = (dialers) => {
     return (
-        <div className='dilersPage'>
+        <div className='dilersPage' >
             <DIlersMap />
             <DilersList dialers={dialers} />
         </div>
