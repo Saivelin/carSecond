@@ -104,7 +104,9 @@ const CatalogTiles = ({ tiles }) => {
                 </div>
             }
             {tiles && !tiles[0] ?
-                <p>Пока здесь ничего нет</p>
+                <div className="catalogTiles__nothing">
+                    <p className="">Пока здесь ничего нет</p>
+                </div>
                 : ""}
         </>
     );

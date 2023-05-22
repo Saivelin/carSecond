@@ -18,6 +18,20 @@
             grid-template-columns: 1fr;
         }
     }
+    &__nothing{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        grid-column-start: 1;
+        grid-column-end: 12;
+        &>p{
+            font-size: max(16px, 1.4rem);
+            font-weight: 400;
+        }
+    }
 }
 
 .catalogTile{
