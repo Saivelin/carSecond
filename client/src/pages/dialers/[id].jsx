@@ -6,6 +6,7 @@ import CatalogTiles from "@/components/CatalogTiles";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { getInfo } from "@/http/userAPI";
+import PagePagination from "@/components/PagePagination";
 
 export const getServerSideProps = async (context) => {
     const { id } = context.params
@@ -59,7 +60,7 @@ const dialerIndividualPage = ({ dialer }) => {
                 </div>
                 <div className="dialerIndividualPage__mainInfo-info">
                     <h2 className="dialerIndividualPage__mainInfo-title">{dialer.lfp} - авто дилер</h2>
-                    <p className="dialerIndividualPage__mainInfo-dialerNowInfo"><strong>350</strong> тыс. клиентов в год, <strong>750</strong> объявлний</p>
+                    <p className="dialerIndividualPage__mainInfo-dialerNowInfo"><strong>350</strong> тыс. клиентов в год, <strong>{ads?.length}</strong> объявлний</p>
                     <p className="dialerIndividualPage__mainInfo-about">{dialer.about.substr(0, 30)}...<img
                         onClick={() => {
                             setModal(
@@ -73,6 +74,13 @@ const dialerIndividualPage = ({ dialer }) => {
                     <button className="button-secondary">Использовать фильтры для поиска</button>
                 </div>
                 <CatalogTiles tiles={currentAds} />
+                <PagePagination
+                    itemsPerPage={postsPerPage}
+                    totalItems={ads.length}
+                    paginate={paginate}
+                    currentPage={currentPage}
+                    className="dialerIndividualPage__paginate"
+                />
             </main>
         </div>
     );

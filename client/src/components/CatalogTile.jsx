@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { apiUrl } from "@/vars";
+import LazyLoad from 'react-lazy-load';
 
 const CatalogTile = ({ tile, doubled, imgs }) => {
     const [imagesOfVehicle, setImagesOfVehicle] = useState(tile.photoForAdvertisements)
@@ -26,7 +27,7 @@ const CatalogTile = ({ tile, doubled, imgs }) => {
     return (
         <div className={doubled === true ? "catalogTile catalogTile-doubled" : "catalogTile"}>
             <div className="catalogTile__mainImageWrapper">
-                <img src={imagesOfVehicle ? apiUrl + imagesOfVehicle[0].url : imagesOfVehicle} alt={tile?.title} className={!doubled ? 'catalogTile__img' : "catalogTile__img-doubled"} />
+                <img width={"100%"} height={"100%"} src={imagesOfVehicle ? apiUrl + imagesOfVehicle[0].url : imagesOfVehicle} alt={tile?.title} className={!doubled ? 'catalogTile__img' : "catalogTile__img-doubled"} />
             </div>
             <div className={!doubled ? "catalogTile__about" : "catalogTile__about catalogTile__about-doubled"}>
                 <h5 className='catalogTile__title'><Link href={"/vehicles/" + tile?.id}>{tile?.mark} {tile?.model}</Link></h5>

@@ -22,7 +22,6 @@
     "react-hook-form": "^7.43.9",
     "react-image-gallery": "^1.2.11",
     "react-input-mask": "^2.0.4",
-    "react-lazy-load": "^4.0.1",
     "react-select": "^5.7.2",
     "react-select-search": "^4.1.6",
     "recoil": "^0.7.7",

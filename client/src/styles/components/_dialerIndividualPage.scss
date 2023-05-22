@@ -76,4 +76,8 @@
     &__logo{
         border-radius: 999px;
     }
+    &__paginate{
+        grid-column-start: 1;
+        grid-column-end: 4;
+    }
 }

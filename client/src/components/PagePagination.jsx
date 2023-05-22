@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const PagePagination = ({ itemsPerPage, totalItems, paginate, className, currentPage }) => {
+    const router = useRouter()
     const pageNumbers = [];
     console.log("totalItems: " + totalItems)
     console.log("itemsPerPage: " + itemsPerPage)
@@ -47,13 +49,12 @@ const PagePagination = ({ itemsPerPage, totalItems, paginate, className, current
                 {console.log(pageNumbers)}
                 <img src="/prevarrow.webp" alt="" onClick={() => { togglePage(currentPage - 1) }} />
                 {pageNumbers.map((number, i) => {
-
                     return (<motion.li
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         key={number}
-                        onClick={() => { togglePage(number) }}
+                        onClick={() => { router.push("#catalog"); togglePage(number); }}
                         className={
                             currentPage != number
                                 ?
@@ -62,9 +63,7 @@ const PagePagination = ({ itemsPerPage, totalItems, paginate, className, current
                                     : ""
                                 : "page-number page-number-active"}
                     >
-                        <a href="#catalog">
-                            {number}
-                        </a>
+                        {number}
                     </motion.li>)
                 })}
                 <img src="/nextarrow.webp" alt="" onClick={() => { togglePage(currentPage + 1) }} />
