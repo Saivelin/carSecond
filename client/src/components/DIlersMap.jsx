@@ -28,7 +28,7 @@ const DIlersMap = () => {
 
     return (
         <div className='dilersMap'>
-            <motion.form action="" className="dilersMap__form" initial="hidden" whileInView="visible" variants={list}>
+            <motion.form action="" className="dilersMap__form" initial="hidden" animate="visible" variants={list}>
                 <motion.div variants={item}>
                     <NewAdSelect placeholder='Класс авто' />
                 </motion.div>
