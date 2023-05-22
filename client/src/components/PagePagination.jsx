@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
+import Link from "next/link";
 
 const PagePagination = ({ itemsPerPage, totalItems, paginate, className, currentPage }) => {
     const pageNumbers = [];
@@ -61,7 +62,9 @@ const PagePagination = ({ itemsPerPage, totalItems, paginate, className, current
                                     : ""
                                 : "page-number page-number-active"}
                     >
-                        {number}
+                        <a href="#catalog">
+                            {number}
+                        </a>
                     </motion.li>)
                 })}
                 <img src="/nextarrow.webp" alt="" onClick={() => { togglePage(currentPage + 1) }} />

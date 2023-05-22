@@ -3,6 +3,10 @@ const Footer = () => {
         <footer className='footer'>
             <div className="footer__main">
                 <div className="footer__main-item">
+                    <img src="/logo.webp" alt="+1E" className="footer__main-item-logo" />
+                    <p>© Все права защищены</p>
+                </div>
+                <div className="footer__main-item">
                     <h4>Сервисы</h4>
                     <p>Подбор авто</p>
                     <p>Оценки рисков</p>

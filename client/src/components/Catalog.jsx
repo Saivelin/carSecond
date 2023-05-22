@@ -4,7 +4,6 @@ import Filters from "./Filters";
 import { apiUrl } from "@/vars";
 import { useState, useEffect } from "react";
 import { getAllAds } from "@/http/adsAPI";
-import { request } from 'graphql-request';
 import PagePagination from "./PagePagination";
 import WrapperCatalogTilesPagination from "./WrapperCatalogTilesPagination";
 
@@ -36,7 +35,7 @@ const Catalog = () => {
     }, [ads, currentPage])
 
     return (
-        <div className='catalog'>
+        <div className='catalog' id="catalog">
             <Filters />
             <CatalogTiles tiles={currentAds} />
             <PagePagination

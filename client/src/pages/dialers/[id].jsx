@@ -59,7 +59,7 @@ const dialerIndividualPage = ({ dialer }) => {
                 </div>
                 <div className="dialerIndividualPage__mainInfo-info">
                     <h2 className="dialerIndividualPage__mainInfo-title">{dialer.lfp} - авто дилер</h2>
-                    <p className="dialerIndividualPage__mainInfo-dialerNowInfo">350 тыс. клиентов в год, 750 объявлний</p>
+                    <p className="dialerIndividualPage__mainInfo-dialerNowInfo"><strong>350</strong> тыс. клиентов в год, <strong>750</strong> объявлний</p>
                     <p className="dialerIndividualPage__mainInfo-about">{dialer.about.substr(0, 30)}...<img
                         onClick={() => {
                             setModal(

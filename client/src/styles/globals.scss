@@ -23,6 +23,11 @@
 @import "./components/services";
 @import "./components/dialerIndividualPage";
 @import "./components/ui";
+
+html{
+    scroll-behavior: smooth;
+}
+
 *{
     margin: 0;
     padding: 0;

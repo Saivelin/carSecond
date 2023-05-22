@@ -2,25 +2,36 @@
 .footer{
         margin-top: 5%;
         &__main{
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        background: linear-gradient(0.25turn, $darkMainColor, $darkDarkMainColor);
-        color: $mainBgColor;
-        padding: clamp(1%, 40px, 4%) clamp(30px, 10%, 500px);
-        justify-content: space-around;
-        &-item{
             display: grid;
-            row-gap: 10px;
-            justify-self: center;
-            &>p{
-                font-weight: 300;
+            grid-template-columns: repeat(4, 1fr);
+            background: linear-gradient(0.25turn, $darkMainColor, $darkDarkMainColor);
+            color: $mainBgColor;
+            padding: clamp(1%, 40px, 4%) clamp(30px, 10%, 500px);
+            justify-content: space-around;
+            &-item{
+                display: grid;
+                row-gap: 10px;
+                justify-self: center;
+                justify-content: center;
+                &:first-child{
+                    width: 100%;
+                    text-align: center;
+                }
+                &-logo{
+                    grid-row-start: 1;
+                    grid-row-end: 4;
+                    width: 230x;
+                    height: 230px;
+                }
+                &>p{
+                    font-weight: 300;
+                }
+                &>h4{
+                    font-weight: 500;
+                    font-size: 1.6em;
+                    color: white;
+                }
             }
-            &>h4{
-                font-weight: 500;
-                font-size: 1.6em;
-                color: white;
-            }
-        }
     }
     &__footer{
         display: grid;

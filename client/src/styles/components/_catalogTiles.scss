@@ -22,10 +22,13 @@
 
 .catalogTile{
     border-radius: 8px;
-    background-color: $mainBgColor;
+     background-color: $mainBgColor;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.256);
     &__mainImageWrapper{
         position: relative;
+        &>img{
+            border-radius: 8px;
+        }
     }
     &__img{
         width: 100%;
@@ -59,12 +62,12 @@
     }
     &__price{
         width: 100%;
-        background-color: $darkMainColor;
+        background-color: $darkMainColor;//$mainLight
         color: $mainBgColor;
         text-align: center;
         border-radius: 5px;
         margin-top: clamp(10px, 10%, 30px);
-        padding: clamp(5px, .1rem, 30px) 0;
+        padding: clamp(5px, .1rem, 30px) 40px;
         font-weight: 500;
     }
     &__imgs{

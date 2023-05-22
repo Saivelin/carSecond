@@ -8,12 +8,12 @@ const UserMain = ({ userInf, auth }) => {
     const setModal = useSetRecoilState(modalState)
     return (
         <div className=''>
-            <motion.div className="userProfile">
+            <div className="userProfile">
                 <img src={userInf.logo ? `${apiUrl}/${userInf.logo}` : "/user.png"} alt="" className="userProfile__logo" />
                 <div className="userProfile__name">
                     <p className="">{userInf.lfpOrNick == "lfp" ? userInf.lfp : userInf.nick}</p>
                 </div>
-            </motion.div>
+            </div>
             {auth === true ?
                 <div className="userProfileFooter">
                     <img src="/email.svg" alt="" />
