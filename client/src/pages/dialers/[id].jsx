@@ -54,7 +54,7 @@ const dialerIndividualPage = ({ dialer }) => {
             <div className="dialerIndividualPage__headerImageWrapper">
                 <img src={`${apiUrl}/${dialer.headerImageForDealer}`} alt={dialer.lfp} />
             </div>
-            <main className="dialerIndividualPage__mainInfo">
+            <main className="dialerIndividualPage__mainInfo" id="catalog">
                 <div className="dialerIndividualPage__logoWrapper">
                     <img src={`${apiUrl}/${dialer.logo}`} alt="" className="dialerIndividualPage__logo" />
                 </div>

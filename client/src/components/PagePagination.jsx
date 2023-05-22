@@ -33,6 +33,9 @@ const PagePagination = ({ itemsPerPage, totalItems, paginate, className, current
                 addedFirst = true
             }
         }
+        if (pageNumbers.length < 1) {
+            pageNumbers.push(1)
+        }
     }
 
     updatePageNumbers()
