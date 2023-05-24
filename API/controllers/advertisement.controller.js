@@ -136,6 +136,22 @@ class UserController {
             return res.json({ status: false, user: false })
         }
     }
+
+    async getByFiltersFrom(req, res) {
+        try {
+            console.log(req.body)
+            const { id, mark, model, generation, bodyType, drive, priceFrom, priceTo, valueFrom, valueTo, mileageFrom, mileageTo } = req.body
+            console.log(mark)
+            if (!id) {
+                const ads = await Advertisement.findAll({ where: { mark: mark }, include: { model: photoForAdvertisement, attributes: ["url"] } })
+                return res.json(ads)
+            }
+            return res.json({ message: "Not valuable id" })
+        }
+        catch {
+            return res.json({ status: false })
+        }
+    }
 }
 
 module.exports = new UserController()

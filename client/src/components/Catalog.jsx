@@ -36,7 +36,7 @@ const Catalog = () => {
 
     return (
         <div className='catalog' id="catalog">
-            <Filters />
+            <Filters setterFilteredAds={setAds} />
             <CatalogTiles tiles={currentAds} />
             <PagePagination
                 className={"catalog__pagePagination"}

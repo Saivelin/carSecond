@@ -6,9 +6,11 @@ import InputPrimary from './UI/InputPrimary';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+import { getFilteredCatalogData } from '@/http/adsAPI';
 
-const Filters = () => {
+const Filters = ({ setterFilteredAds }) => {
     const [count, setCount] = useState(318);
+    const [filteredAds, setFilteredAds] = useState([])
 
     const [marks, setMarks] = useState([{ name: "BMW", value: "BMW" }]);
     const [markNow, setMarkNow] = useState(false);
@@ -25,14 +27,12 @@ const Filters = () => {
     }, [])
 
     useEffect(() => {
-        console.log(markNow)
         if (markNow) {
             getAnyForSelect(`https://cars-base.ru/api/cars/${markNow}`, "name", setModels)
         }
     }, [markNow])
 
     useEffect(() => {
-        console.log(modelNow)
         if (modelNow) {
             getAnyForSelect(`https://cars-base.ru/api/cars/${markNow}/${modelNow}?key=399f98497`, "name", setGeneration)
         }
@@ -52,7 +52,6 @@ const Filters = () => {
     const getAnyForSelect = async (url, titleOfVal, setter) => {
         await axios.get(url).then((res) => {
             let newAny = []
-            console.log(res.data)
             res.data.forEach((el) => {
                 newAny.push({ name: el[titleOfVal], value: el.id })
             })
@@ -60,8 +59,29 @@ const Filters = () => {
         })
     }
 
+    const handelSubmit = async (e) => {
+        e.preventDefault()
+        let postData = [undefined]
+        if (markNow) {
+            postData.push(markNow)
+            if (modelNow) {
+                postData.push(modelNow)
+            }
+        }
+        console.log(postData)
+        const res = await getFilteredCatalogData(...postData)//useCatalogFilters(markNow)
+        console.log(res)
+        setFilteredAds(res)
+        setTimeout(() => {
+            setterFilteredAds(res)
+        }, 1000)
+        // setterFilteredAds(useCatalogFilters(markNow))
+    }
+
+    useEffect(() => { console.log(filteredAds) }, [filteredAds])
+
     return (
-        <motion.div
+        <motion.form
             className='filter'
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
@@ -85,10 +105,10 @@ const Filters = () => {
                 <InputPrimary classes="input-filter" placeholder="Пробег от" />
                 <InputPrimary classes="input-filter" placeholder="Пробег до" />
             </div>
-            <FilterBtn>
+            <FilterBtn onClick={handelSubmit}>
                 Показать {count} предложений
             </FilterBtn>
-        </motion.div>
+        </motion.form>
     );
 };
 

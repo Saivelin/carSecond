@@ -7,6 +7,7 @@ import axios, { Axios } from "axios";
 import { user } from "@/state/atoms";
 import { useRecoilValue } from "recoil";
 import { apiUrl } from "@/vars";
+import { useForm } from "react-hook-form";
 
 
 const NewAdForm = ({ classes, propertyes, userNow }) => {
@@ -91,9 +92,8 @@ const NewAdForm = ({ classes, propertyes, userNow }) => {
     }
 
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        let formDat = new FormData(e.target)
+    const onSubmit = () => {
+        let formDat = new FormData(form.current)
         formDat.append("mark", markNow)
         formDat.append("model", modelNow)
         formDat.append("generation", "1")
@@ -122,11 +122,14 @@ const NewAdForm = ({ classes, propertyes, userNow }) => {
         })
     }
 
+    const { register, handleSubmit, watch, control, formState: { errors } } = useForm();
+
     const refInputImages = useRef()
+    const form = useRef()
 
     return (
 
-        <form className={classes ? "newAdForm " + classes : "newAdForm"} onSubmit={handleSubmit}>
+        <form ref={form} className={classes ? "newAdForm " + classes : "newAdForm"} onSubmit={handleSubmit(onSubmit)}>
             <div className="newAdForm__left newAdForm__left-sectionOne">
                 <label htmlFor="addImageForNewAd">
                     <input ref={refInputImages} type="file" size={"md"} id="addImageForNewAd" className="newAdForm__addImageForNewAd" name="photo" />
@@ -140,15 +143,27 @@ const NewAdForm = ({ classes, propertyes, userNow }) => {
                 <div className="newAdForm__left-inputsWrapper">
                     <div className="newAdForm__left-document">
                         <label className="radioWrapper" htmlFor="originalDocType">
-                            <input value={"Бензин"} type="radio" id="originalDocType" name="carRegistrationCertificate" className="radioWrapper__radio" />
+                            <input value={"Бензин"} type="radio" id="originalDocType" name="carRegistrationCertificate" className="radioWrapper__radio"
+                                {...register("carRegistrationCertificate", {
+                                    required: "Данное поле обязательно для заполнения"
+                                })}
+                            />
                             <div className="transmissionWrapper" style={{ textAlign: "center", display: "block" }}>Оригинал / Электронный ПТС</div>
                         </label>
                         <label className="radioWrapper" htmlFor="duplicateDocType">
-                            <input value={"Дубликат"} type="radio" id="duplicateDocType" name="carRegistrationCertificate" className="radioWrapper__radio" />
+                            <input value={"Дубликат"} type="radio" id="duplicateDocType" name="carRegistrationCertificate" className="radioWrapper__radio"
+                                {...register("carRegistrationCertificate", {
+                                    required: "Данное поле обязательно для заполнения"
+                                })}
+                            />
                             <div className="transmissionWrapper" style={{ textAlign: "center", display: "block" }}>Дубликат</div>
                         </label>
                         <label className="radioWrapper" htmlFor="noneDocumentType">
-                            <input value={"Нет ПТС"} type="radio" id="noneDocumentType" name="carRegistrationCertificate" className="radioWrapper__radio" />
+                            <input value={"Нет ПТС"} type="radio" id="noneDocumentType" name="carRegistrationCertificate" className="radioWrapper__radio"
+                                {...register("carRegistrationCertificate", {
+                                    required: "Данное поле обязательно для заполнения"
+                                })}
+                            />
                             <div className="transmissionWrapper" style={{ textAlign: "center", display: "block" }}>Нет ПТС</div>
                         </label>
                         {/* <label className="radioWrapper" htmlFor="original">
@@ -164,6 +179,16 @@ const NewAdForm = ({ classes, propertyes, userNow }) => {
                             <div className="documentWrapper">Нет ПТС</div>
                         </label> */}
                     </div>
+                    {
+                        errors?.carRegistrationCertificate
+                            ?
+                            errors?.carRegistrationCertificate.message
+                                ?
+                                <motion.p initial={{ x: 10, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }}>{errors?.carRegistrationCertificate.message}</motion.p>
+                                :
+                                <motion.p initial={{ x: 10, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }}>Error</motion.p>
+                            : ""
+                    }
                     <input type="date" className="newAdForm__input-primary" placeholder="Когда было куплено авто" />
                     <div className="newAdForm__left-rightLeft">
                         <div>
@@ -181,23 +206,83 @@ const NewAdForm = ({ classes, propertyes, userNow }) => {
                 <NewAdSelect placeholder={"Марка"} options={marks} updateData={(value) => { setMarkNow(value) }} />
                 <NewAdSelect placeholder={"Модель"} options={models} disabled={markNow === false ? true : false} updateData={(value) => { setModelNow(value) }} />
                 <NewAdSelect placeholder={"Поколение"} options={generation} disabled={modelNow === false ? true : false} />
-                <input type="text" className="newAdForm__input-primary" placeholder="Год выпуска" name="year" />
-                <input type="text" className="newAdForm__input-primary" placeholder="Пробег, км" name="mileage" />
+                <input type="text" className="newAdForm__input-primary" placeholder="Год выпуска" name="year"
+                    {...register("year",
+                        {
+                            required: "Данное поле обязательно для заполнения",
+                            minLength: { value: 4, message: "Минимальная длина данного поля: 4 символа" },
+                            pattern: { value: /[0-9]/, message: "В данном поле должен быть указан год выпуска авто" },
+                        })}
+                />
+                {
+                    errors?.year
+                        ?
+                        errors?.year.message
+                            ?
+                            <motion.p initial={{ x: 10, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }}>{errors?.year.message}</motion.p>
+                            :
+                            <motion.p initial={{ x: 10, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }}>Error</motion.p>
+                        : ""
+                }
+                <input type="text" className="newAdForm__input-primary" placeholder="Пробег, км" name="mileage"
+                    {...register("mileage", {
+                        pattern: { value: /[0-9]/, message: "В данном поле должен быть указан пробег Вашего авто" }
+                    })}
+                />
+                {
+                    errors?.mileage
+                        ?
+                        errors?.mileage.message
+                            ?
+                            <motion.p initial={{ x: 10, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }}>{errors?.mileage.message}</motion.p>
+                            :
+                            <motion.p initial={{ x: 10, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }}>Error</motion.p>
+                        : ""
+                }
                 <input type="text" className="newAdForm__input-primary" placeholder="Тип кузова" name="bodyType" />
-                <input type="text" className="newAdForm__input-primary" placeholder="Гос номер" name="licensePlate" />
+                <input type="text" className="newAdForm__input-primary" placeholder="Гос номер" name="licensePlate"
+                    {...register("licensePlate", {
+                        pattern: { value: /^[АВЕКМНОРСТУХ]\d{3}(?<!000)[АВЕКМНОРСТУХ]{2}\d{2,3}$/ui, message: "В данном поле должен быть гос номер Вашего авто" }
+                    })} />
+                {
+                    errors?.licensePlate
+                        ?
+                        errors?.licensePlate.message
+                            ?
+                            <motion.p initial={{ x: 10, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }}>{errors?.licensePlate.message}</motion.p>
+                            :
+                            <motion.p initial={{ x: 10, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }}>Error</motion.p>
+                        : ""
+                }
                 {/* <NewAdSelect placeholder={"Тип кузова"} /> */}
                 <div className="newAdForm__right-flexAuto">
                     <label className="radioWrapper" htmlFor="autoBox">
-                        <input value={"Бензин"} type="radio" id="autoBox" name="fuel" className="radioWrapper__radio" />
+                        <input value={"Бензин"} type="radio" id="autoBox" name="fuel" className="radioWrapper__radio" {...register("fuel", {
+                            required: "Данное поле обязательно для заполнения"
+                        })} />
                         <div className="transmissionWrapper"><img src="/desB.webp" alt="" /><span>Бензин</span></div>
                     </label>
                     <label className="radioWrapper" htmlFor="mechBox">
-                        <input value={"Дизель"} type="radio" id="mechBox" name="fuel" className="radioWrapper__radio" />
+                        <input value={"Дизель"} type="radio" id="mechBox" name="fuel" className="radioWrapper__radio" {...register("fuel", {
+                            required: "Данное поле обязательно для заполнения"
+                        })} />
                         <div className="transmissionWrapper"><img src="/desT.webp" alt="" /><span>Дизель</span></div>
                     </label>
                 </div>
+                {
+                    errors?.fuel
+                        ?
+                        errors?.fuel.message
+                            ?
+                            <motion.p initial={{ x: 10, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }}>{errors?.fuel.message}</motion.p>
+                            :
+                            <motion.p initial={{ x: 10, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }}>Error</motion.p>
+                        : ""
+                }
                 <NewAdSelect updateData={(value) => { setDriveNow(value) }} placeholder={"Привод"} options={[{ name: "Задний", value: "Задний" }, { name: "Полный", value: "Полный" }, { name: "Передний", value: "Передний" }]} />
-                <NewAdSelect updateData={(value) => { setTransmission(value) }} placeholder={"Коробка передач"} />
+                <NewAdSelect updateData={(value) => { setTransmission(value) }} placeholder={"Коробка передач"}
+                    options={[{ name: "Автомат", value: "Автомат" }, { name: "Механика", value: "Механика" }, { name: "Робот", value: "Робот" }, { name: "Вариативная", value: "Вариативная" }]}
+                />
                 <NewAdSelect placeholder={"Модификация"} />
                 <div className="newAdForm__right-rightLeft">
                     <div>

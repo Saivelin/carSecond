@@ -8,5 +8,6 @@ router.post('/add', advertisementController.add)
 router.get('/getAll', advertisementController.getAll)
 router.get('/getById/:id', advertisementController.getById)
 router.get('/getUserByIdOfAd/:id', advertisementController.getUserByIdOfAd)
+router.post('/getByFiltersFrom', advertisementController.getByFiltersFrom)
 
 module.exports = router
