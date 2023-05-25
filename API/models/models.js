@@ -50,6 +50,11 @@ const Advertisement = sequelize.define('advertisements', {
     state: { type: DataTypes.STRING, defaultValue: "Б/У" }
 })
 
+const BodyTypes = sequelize.define("bodyTypes", {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    title: { type: DataTypes.STRING }
+})
+
 const photoForAdvertisement = sequelize.define('photoForAdvertisement', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     url: { type: DataTypes.STRING },
@@ -62,4 +67,5 @@ module.exports = {
     User,
     Advertisement,
     photoForAdvertisement,
+    BodyTypes
 }

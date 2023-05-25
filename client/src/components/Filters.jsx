@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { getFilteredCatalogData } from '@/http/adsAPI';
+import { apiUrl } from '@/vars';
 
 const Filters = ({ setterFilteredAds }) => {
     const [count, setCount] = useState(318);
@@ -20,6 +21,9 @@ const Filters = ({ setterFilteredAds }) => {
 
     const [generation, setGeneration] = useState([]);
     const [generationNow, setGenerationNow] = useState(false);
+
+    const [bodyTypes, setBodyTypes] = useState([])
+    const [bodyTypeNow, setBodyTypeNow] = useState([])
 
     useEffect(() => {
         // getMarksOfCars()
@@ -38,6 +42,11 @@ const Filters = ({ setterFilteredAds }) => {
         }
     }, [modelNow])
 
+    useEffect(() => {
+        // getMarksOfCars()
+        getAnyForSelect(`${apiUrl}api/advertisement/getBodyTypes`, "title", setBodyTypes, true)
+    }, [])
+
     // const getMarksOfCars = async () => {
     //     await axios.get("https://cars-base.ru/api/cars/").then((res) => {
     //         let newMarks = []
@@ -49,11 +58,17 @@ const Filters = ({ setterFilteredAds }) => {
     //     })
     // }
 
-    const getAnyForSelect = async (url, titleOfVal, setter) => {
+    const getAnyForSelect = async (url, titleOfVal, setter, titleIsId = false) => {
         await axios.get(url).then((res) => {
             let newAny = []
+            console.log(res)
             res.data.forEach((el) => {
-                newAny.push({ name: el[titleOfVal], value: el.id })
+                if (titleIsId == false) {
+                    newAny.push({ name: el[titleOfVal], value: el.id })
+                }
+                else {
+                    newAny.push({ name: el[titleOfVal], value: el[titleOfVal] })
+                }
             })
             setter(newAny)
         })
@@ -66,7 +81,23 @@ const Filters = ({ setterFilteredAds }) => {
             postData.push(markNow)
             if (modelNow) {
                 postData.push(modelNow)
+                if (generationNow) {
+                    postData.push(generationNow)
+                }
+                else {
+                    postData.push(undefined)
+                }
+            } else {
+                postData.push(undefined)
+                postData.push(undefined)
             }
+        } else {
+            postData.push(undefined)
+            postData.push(undefined)
+            postData.push(undefined)
+        }
+        if (bodyTypeNow) {
+            postData.push(bodyTypeNow)
         }
         console.log(postData)
         const res = await getFilteredCatalogData(...postData)//useCatalogFilters(markNow)
@@ -88,8 +119,8 @@ const Filters = ({ setterFilteredAds }) => {
         >
             <NewAdSelect placeholder={"Марка"} options={marks} updateData={(value) => { setMarkNow(value) }} />
             <NewAdSelect placeholder={"Модель"} options={models} disabled={markNow === false ? true : false} updateData={(value) => { setModelNow(value) }} />
-            <NewAdSelect placeholder={"Поколение"} options={generation} disabled={modelNow === false ? true : false} />
-            <NewAdSelect placeholder={"Кузов"} />
+            <NewAdSelect placeholder={"Поколение"} options={generation} disabled={modelNow === false ? true : false} updateData={(value) => { setGenerationNow(value) }} />
+            <NewAdSelect placeholder={"Кузов"} options={bodyTypes} updateData={(value) => { setBodyTypeNow(value) }} />
             <NewAdSelect placeholder={"Коробка"} options={[{ value: "Автомат", name: "Автомат" }, { value: "Механика", name: "Механика" }]} />
             <NewAdSelect placeholder={"Двигатель"} />
             <NewAdSelect placeholder={"Привод"} options={[{ value: "Задний", name: "Задний" }, { value: "Передний", name: "Передний" }, { value: "Полный", name: "Полный" }]} />

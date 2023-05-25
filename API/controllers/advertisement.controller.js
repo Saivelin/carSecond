@@ -1,4 +1,4 @@
-const { Advertisement, photoForAdvertisement, User } = require('../models/models')
+const { Advertisement, photoForAdvertisement, User, BodyTypes } = require('../models/models')
 const uuid = require('uuid')
 
 async function uploadImages(files, id) {
@@ -142,11 +142,39 @@ class UserController {
             console.log(req.body)
             const { id, mark, model, generation, bodyType, drive, priceFrom, priceTo, valueFrom, valueTo, mileageFrom, mileageTo } = req.body
             console.log(mark)
+            let whereData = {};
+            if (mark) { whereData.mark = mark }
+            if (model) { whereData.model = model }
+            if (generation) { whereData.generation = generation }
+            if (bodyType) { whereData.bodyType = bodyType }
             if (!id) {
-                const ads = await Advertisement.findAll({ where: { mark: mark }, include: { model: photoForAdvertisement, attributes: ["url"] } })
+                const ads = await Advertisement.findAll({ where: whereData, include: { model: photoForAdvertisement, attributes: ["url"] } })
                 return res.json(ads)
             }
             return res.json({ message: "Not valuable id" })
+        }
+        catch {
+            return res.json({ status: false })
+        }
+    }
+
+    async getBodyTypes(req, res) {
+        try {
+            const bodyTypes = await BodyTypes.findAll()
+            return res.json(bodyTypes)
+        }
+        catch {
+            return res.json({ status: false })
+        }
+    }
+
+    async addBodyTypes(req, res) {
+        try {
+            const { arr } = req.body
+            await arr.forEach(async (el) => {
+                const bodyNew = await BodyTypes.create({ title: el })
+            })
+            return res.json({ status: true })
         }
         catch {
             return res.json({ status: false })

@@ -96,7 +96,7 @@ const NewAdForm = ({ classes, propertyes, userNow }) => {
         let formDat = new FormData(form.current)
         formDat.append("mark", markNow)
         formDat.append("model", modelNow)
-        formDat.append("generation", "1")
+        formDat.append("generation", generationNow)
         formDat.append("userId", userAuthd.id)
         formDat.append("imgs", refInputImages.current.files)
 
@@ -205,7 +205,7 @@ const NewAdForm = ({ classes, propertyes, userNow }) => {
             <div className="newAdForm__right newAdForm__right-sectionOne">
                 <NewAdSelect placeholder={"Марка"} options={marks} updateData={(value) => { setMarkNow(value) }} />
                 <NewAdSelect placeholder={"Модель"} options={models} disabled={markNow === false ? true : false} updateData={(value) => { setModelNow(value) }} />
-                <NewAdSelect placeholder={"Поколение"} options={generation} disabled={modelNow === false ? true : false} />
+                <NewAdSelect placeholder={"Поколение"} options={generation} disabled={modelNow === false ? true : false} updateData={(value) => { setGenerationNow(value) }} />
                 <input type="text" className="newAdForm__input-primary" placeholder="Год выпуска" name="year"
                     {...register("year",
                         {
