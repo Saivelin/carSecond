@@ -25,6 +25,11 @@ const Filters = ({ setterFilteredAds }) => {
     const [bodyTypes, setBodyTypes] = useState([])
     const [bodyTypeNow, setBodyTypeNow] = useState([])
 
+    const [transmissionNow, setTransmissionNow] = useState()
+    const [driveNow, setDriveNow] = useState()
+    const [priceFrom, setPriceFrom] = useState(1)
+    const [priceTo, setPriceTo] = useState(999999999999999)
+
     useEffect(() => {
         // getMarksOfCars()
         getAnyForSelect("https://cars-base.ru/api/cars/", "name", setMarks)
@@ -99,13 +104,40 @@ const Filters = ({ setterFilteredAds }) => {
         if (bodyTypeNow) {
             postData.push(bodyTypeNow)
         }
+        else {
+            postData.push(undefined)
+        }
+        if (transmissionNow) {
+            postData.push(transmissionNow)
+        }
+        else {
+            postData.push(undefined)
+        }
+        if (driveNow) {
+            postData.push(driveNow)
+        }
+        else {
+            postData.push(undefined)
+        }
+        if (priceFrom) {
+            postData.push(Number(priceFrom))
+        }
+        else {
+            postData.push(undefined)
+        }
+        if (priceTo) {
+            postData.push(Number(priceTo))
+        }
+        else {
+            postData.push(undefined)
+        }
         console.log(postData)
         const res = await getFilteredCatalogData(...postData)//useCatalogFilters(markNow)
         console.log(res)
         setFilteredAds(res)
-        setTimeout(() => {
-            setterFilteredAds(res)
-        }, 1000)
+        // setTimeout(() => {
+        setterFilteredAds(res)
+        // }, 1000)
         // setterFilteredAds(useCatalogFilters(markNow))
     }
 
@@ -121,12 +153,12 @@ const Filters = ({ setterFilteredAds }) => {
             <NewAdSelect placeholder={"Модель"} options={models} disabled={markNow === false ? true : false} updateData={(value) => { setModelNow(value) }} />
             <NewAdSelect placeholder={"Поколение"} options={generation} disabled={modelNow === false ? true : false} updateData={(value) => { setGenerationNow(value) }} />
             <NewAdSelect placeholder={"Кузов"} options={bodyTypes} updateData={(value) => { setBodyTypeNow(value) }} />
-            <NewAdSelect placeholder={"Коробка"} options={[{ value: "Автомат", name: "Автомат" }, { value: "Механика", name: "Механика" }]} />
+            <NewAdSelect placeholder={"Коробка"} options={[{ value: "Автомат", name: "Автомат" }, { value: "Механика", name: "Механика" }, { value: "Робот", name: "Робот" }, { name: "Вариативная", value: "Вариативная" }]} updateData={(value) => { setTransmissionNow(value) }} />
             <NewAdSelect placeholder={"Двигатель"} />
-            <NewAdSelect placeholder={"Привод"} options={[{ value: "Задний", name: "Задний" }, { value: "Передний", name: "Передний" }, { value: "Полный", name: "Полный" }]} />
+            <NewAdSelect placeholder={"Привод"} options={[{ value: "Задний", name: "Задний" }, { value: "Передний", name: "Передний" }, { value: "Полный", name: "Полный" }]} updateData={(value) => { setDriveNow(value) }} />
             <div className="filter__twoInOne">
-                <InputPrimary classes="input-filter" placeholder="Цена от" />
-                <InputPrimary classes="input-filter" placeholder="Цена до" />
+                <InputPrimary classes="input-filter" placeholder="Цена от" setter={setPriceFrom} type="number" />
+                <InputPrimary classes="input-filter" placeholder="Цена до" setter={setPriceTo} type="number" />
             </div>
             <div className="filter__twoInOne">
                 <InputPrimary classes="input-filter" placeholder="Объем от" />

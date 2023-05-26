@@ -34,7 +34,7 @@ const Advertisement = sequelize.define('advertisements', {
     vin: { type: DataTypes.STRING },
     carRegistrationCertificate: { type: DataTypes.STRING },
     notRegisteredInRF: { type: DataTypes.BOOLEAN, defaultValue: false },
-    price: { type: DataTypes.STRING, defaultValue: "Договорная" },
+    price: { type: DataTypes.INTEGER, defaultValue: 1 },
     exchange: { type: DataTypes.BOOLEAN, defaultValue: false },
     broken: { type: DataTypes.BOOLEAN, defaultValue: false },
     carTronOnly: { type: DataTypes.BOOLEAN, defaultValue: false },

@@ -1,4 +1,5 @@
 const { Advertisement, photoForAdvertisement, User, BodyTypes } = require('../models/models')
+const { Op } = require("sequelize")
 const uuid = require('uuid')
 
 async function uploadImages(files, id) {
@@ -90,8 +91,6 @@ class UserController {
             })
             await uploadImages(files, newAdvertisement.id)
 
-
-
             return res.status(200).json({ status: true, newAdvertisement })
         } catch (e) {
             res.status(400).json({ status: false, errorName: e })
@@ -140,13 +139,35 @@ class UserController {
     async getByFiltersFrom(req, res) {
         try {
             console.log(req.body)
-            const { id, mark, model, generation, bodyType, drive, priceFrom, priceTo, valueFrom, valueTo, mileageFrom, mileageTo } = req.body
+            const { id, mark, model, generation, bodyType, transmission, drive, priceFrom, priceTo, valueFrom, valueTo, mileageFrom, mileageTo } = req.body
             console.log(mark)
             let whereData = {};
             if (mark) { whereData.mark = mark }
             if (model) { whereData.model = model }
             if (generation) { whereData.generation = generation }
             if (bodyType) { whereData.bodyType = bodyType }
+            if (transmission) { whereData.transmission = transmission }
+            if (drive) { whereData.drive = drive }
+            if (priceFrom && priceTo) {
+                whereData.price = {
+                    [Op.and]: {
+                        [Op.gte]: priceFrom,
+                        [Op.lte]: priceTo,
+                    }
+                }
+            }
+            // else if (!priceFrom && !priceTo) {
+
+            // }
+            // else if (!priceFrom) {
+            //     whereData.price = {
+            //         [Op.lt]: priceTo
+            //     }
+            // }
+            // else if (!priceTo) {
+            //     whereData.price = `${priceFrom} < price`
+            // }
+            console.log(whereData)
             if (!id) {
                 const ads = await Advertisement.findAll({ where: whereData, include: { model: photoForAdvertisement, attributes: ["url"] } })
                 return res.json(ads)

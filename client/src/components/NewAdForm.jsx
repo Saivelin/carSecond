@@ -22,6 +22,9 @@ const NewAdForm = ({ classes, propertyes, userNow }) => {
     const [generation, setGeneration] = useState([]);
     const [generationNow, setGenerationNow] = useState(false);
 
+    const [bodyTypes, setBodyTypes] = useState([]);
+    const [bodyTypeNow, setBodyTypeNow] = useState();
+
     useEffect(() => {
         // getMarksOfCars()
         getAnyForSelect("https://cars-base.ru/api/cars/", "name", setMarks)
@@ -40,6 +43,22 @@ const NewAdForm = ({ classes, propertyes, userNow }) => {
             getAnyForSelect(`https://cars-base.ru/api/cars/${markNow}/${modelNow}?key=399f98497`, "name", setGeneration)
         }
     }, [modelNow])
+
+    useEffect(() => {
+        getBodyTypes(`${apiUrl}api/advertisement/getBodyTypes`, "title", setBodyTypes)
+    }, [])
+
+
+    const getBodyTypes = async (url, titleOfVal, setter) => {
+        await axios.get(url).then((res) => {
+            let newAny = []
+            console.log(res)
+            res.data.forEach((el) => {
+                newAny.push({ name: el[titleOfVal], value: el[titleOfVal] })
+            })
+            setter(newAny)
+        })
+    }
 
 
     const getAnyForSelect = async (url, titleOfVal, setter) => {
@@ -98,6 +117,7 @@ const NewAdForm = ({ classes, propertyes, userNow }) => {
         formDat.append("model", modelNow)
         formDat.append("generation", generationNow)
         formDat.append("userId", userAuthd.id)
+        formDat.append("transmission", transmission)
         formDat.append("imgs", refInputImages.current.files)
 
         // drive,
@@ -239,7 +259,8 @@ const NewAdForm = ({ classes, propertyes, userNow }) => {
                             <motion.p initial={{ x: 10, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }}>Error</motion.p>
                         : ""
                 }
-                <input type="text" className="newAdForm__input-primary" placeholder="Тип кузова" name="bodyType" />
+                <NewAdSelect updateData={(value) => { setBodyTypeNow(value) }} placeholder={"Тип кузова"} options={bodyTypes} />
+                {/* <input type="text" className="newAdForm__input-primary" placeholder="Тип кузова" name="bodyType" /> */}
                 <input type="text" className="newAdForm__input-primary" placeholder="Гос номер" name="licensePlate"
                     {...register("licensePlate", {
                         pattern: { value: /^[АВЕКМНОРСТУХ]\d{3}(?<!000)[АВЕКМНОРСТУХ]{2}\d{2,3}$/ui, message: "В данном поле должен быть гос номер Вашего авто" }
@@ -250,6 +271,24 @@ const NewAdForm = ({ classes, propertyes, userNow }) => {
                         errors?.licensePlate.message
                             ?
                             <motion.p initial={{ x: 10, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }}>{errors?.licensePlate.message}</motion.p>
+                            :
+                            <motion.p initial={{ x: 10, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }}>Error</motion.p>
+                        : ""
+                }
+                <input type="text" className="newAdForm__input-primary" placeholder="Цена" name="price"
+                    {...register("price",
+                        {
+                            required: "Данное поле обязательно для заполнения",
+                            maxLength: { value: 15, message: "Максимальная длина данного поля 15 символов" },
+                            pattern: { value: /[0-9]/, message: "В данном поле должена быть указана цена авто" },
+                        })}
+                />
+                {
+                    errors?.year
+                        ?
+                        errors?.year.message
+                            ?
+                            <motion.p initial={{ x: 10, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }}>{errors?.year.message}</motion.p>
                             :
                             <motion.p initial={{ x: 10, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }}>Error</motion.p>
                         : ""
