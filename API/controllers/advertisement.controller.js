@@ -193,14 +193,14 @@ class UserController {
             }
             console.log(whereData)
             if (!id) {
-                // if (!count) {
-                const ads = await Advertisement.findAll({ where: whereData, include: { model: photoForAdvertisement, attributes: ["url"] } })
-                return res.json(ads)
-                // }
-                // else {
-                // const ads = await Advertisement.count({ where: whereData, include: { model: photoForAdvertisement, attributes: ["url"] } })
-                // return res.json(ads)
-                // }
+                if (!count) {
+                    const ads = await Advertisement.findAll({ where: whereData, include: { model: photoForAdvertisement, attributes: ["url"] } })
+                    return res.json(ads)
+                }
+                else {
+                    const ads = await Advertisement.count({ where: whereData, include: { model: photoForAdvertisement, attributes: ["url"] } })
+                    return res.json(ads)
+                }
             }
             return res.json({ message: "Not valuable id" })
         }

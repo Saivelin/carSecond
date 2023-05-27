@@ -85,8 +85,7 @@ const Filters = ({ setterFilteredAds }) => {
         })
     }
 
-    const handelSubmit = async (e) => {
-        e.preventDefault()
+    const formedRequest = () => {
         let postData = [undefined]
         if (markNow) {
             postData.push(markNow)
@@ -161,6 +160,86 @@ const Filters = ({ setterFilteredAds }) => {
         else {
             postData.push(undefined)
         }
+        return postData
+    }
+
+    const handelSubmit = async (e) => {
+        e.preventDefault()
+        // let postData = [undefined]
+        // if (markNow) {
+        //     postData.push(markNow)
+        //     if (modelNow) {
+        //         postData.push(modelNow)
+        //         if (generationNow) {
+        //             postData.push(generationNow)
+        //         }
+        //         else {
+        //             postData.push(undefined)
+        //         }
+        //     } else {
+        //         postData.push(undefined)
+        //         postData.push(undefined)
+        //     }
+        // } else {
+        //     postData.push(undefined)
+        //     postData.push(undefined)
+        //     postData.push(undefined)
+        // }
+        // if (bodyTypeNow) {
+        //     postData.push(bodyTypeNow)
+        // }
+        // else {
+        //     postData.push(undefined)
+        // }
+        // if (transmissionNow) {
+        //     postData.push(transmissionNow)
+        // }
+        // else {
+        //     postData.push(undefined)
+        // }
+        // if (driveNow) {
+        //     postData.push(driveNow)
+        // }
+        // else {
+        //     postData.push(undefined)
+        // }
+        // if (priceFrom) {
+        //     postData.push(priceFrom)
+        // }
+        // else {
+        //     postData.push(undefined)
+        // }
+        // if (priceTo) {
+        //     postData.push(priceTo)
+        // }
+        // else {
+        //     postData.push(undefined)
+        // }
+        // if (valueFromNow) {
+        //     postData.push(valueFromNow)
+        // }
+        // else {
+        //     postData.push(undefined)
+        // }
+        // if (valueToNow) {
+        //     postData.push(valueToNow)
+        // }
+        // else {
+        //     postData.push(undefined)
+        // }
+        // if (mileageFromNow) {
+        //     postData.push(mileageFromNow)
+        // }
+        // else {
+        //     postData.push(undefined)
+        // }
+        // if (mileageToNow) {
+        //     postData.push(mileageToNow)
+        // }
+        // else {
+        //     postData.push(undefined)
+        // }
+        let postData = formedRequest()
         console.log(postData)
         const res = await getFilteredCatalogData(...postData)//useCatalogFilters(markNow)
         console.log(res)
@@ -171,6 +250,32 @@ const Filters = ({ setterFilteredAds }) => {
         // setterFilteredAds(useCatalogFilters(markNow))
     }
 
+    const getCountOfAds = async () => {
+        let postData = formedRequest()
+        postData.push(true)
+        console.log(postData)
+        const res = await getFilteredCatalogData(...postData)//useCatalogFilters(markNow)
+        return res
+    }
+
+    useEffect(() => {
+        const c = getCountOfAds()
+        c.then((el) => setCount(el))
+    }, [
+        markNow,
+        modelNow,
+        generationNow,
+        bodyTypeNow,
+        transmissionNow,
+        driveNow,
+        priceFrom,
+        priceTo,
+        valueFromNow,
+        valueToNow,
+        mileageFromNow,
+        mileageToNow,
+    ])
+
     useEffect(() => { console.log(filteredAds) }, [filteredAds])
 
     return (
@@ -178,6 +283,7 @@ const Filters = ({ setterFilteredAds }) => {
             className='filter'
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
+            onChange={() => { console.log("change") }}
         >
             <NewAdSelect placeholder={"Марка"} options={marks} updateData={(value) => { setMarkNow(value) }} />
             <NewAdSelect placeholder={"Модель"} options={models} disabled={markNow === false ? true : false} updateData={(value) => { setModelNow(value) }} />
