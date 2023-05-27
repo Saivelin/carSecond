@@ -35,7 +35,9 @@ export const getFilteredCatalogData = async (
     valueFrom = undefined,
     valueTo = undefined,
     mileageFrom = undefined,
-    mileageTo = undefined) => {
+    mileageTo = undefined,
+    count = false
+) => {
     let postdata = {}
     if (mark) {
         postdata.mark = mark
@@ -72,6 +74,9 @@ export const getFilteredCatalogData = async (
     }
     if (mileageTo) {
         postdata.mileageTo = mileageTo
+    }
+    if (count) {
+        postdata.count = true
     }
     console.log(postdata)
 

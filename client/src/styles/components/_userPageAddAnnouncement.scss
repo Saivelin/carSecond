@@ -23,12 +23,19 @@
         @include box-shadow_dark-white;
         transition: 1.4s cubic-bezier(0.075, 0.82, 0.165, 1);
         font-size: max(16px, 1.3rem);
-        font-weight: 400;
+        font-weight: 600;
         max-width: max(300px, 50%);
-        box-shadow: -5px -5px 8px rgba(255, 255, 255, .151), 5px 5px 8px rgba(0, 0, 0, 0.151);
+        // color: $mainColor;
+        // background-color: $mainLight;
+        // box-shadow: -5px -5px 10px  $mainLight, 5px 5px 8px rgba(0, 0, 0, 0.151);
+        box-shadow: none;
+        border: 3px $mainLight solid;
+        // box-shadow: -5px -5px 8px rgba(255, 255, 255, .151), 5px 5px 8px rgba(0, 0, 0, 0.151);
         transition: 1.5s cubic-bezier(0.075, 0.82, 0.165, 1);
         &:hover{
-            box-shadow: -5px -5px 12px rgba(255, 255, 255, 0.251), 5px 5px 12px rgba(0, 0, 0, 0.251);
+            box-shadow: -5px -5px 18px $mainColor, 5px 5px 12px rgba(0, 0, 0, 0.251);
+            background-color: $mainLight;
+            // box-shadow: -5px -5px 12px rgba(255, 255, 255, 0.251), 5px 5px 12px rgba(0, 0, 0, 0.251);
         }
         // &:hover{
         //     box-shadow: -5px -5px 14px rgba(255, 255, 255, 0.129), 5px 5px 14px rgba(0, 0, 0, 0.129)

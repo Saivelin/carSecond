@@ -1,0 +1,93 @@
+from flask import Flask, request, jsonify, Response
+from werkzeug.utils import secure_filename
+import cv2
+import numpy as np
+import os
+import tempfile
+
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = 'uploads'
+
+# Загрузка каскада Хаара для обнаружения номеров машин
+car_cascade_usa = cv2.CascadeClassifier('haarcascade_russian_plate_number.xml')
+car_cascade_eu = cv2.CascadeClassifier('haarcascade_eu.xml')
+car_cascade_kr = cv2.CascadeClassifier('haarcascade_kr.xml')
+car_cascade_jp = cv2.CascadeClassifier('haarcascade_jp.xml')
+car_cascade_cn = cv2.CascadeClassifier('haarcascade_cn.xml')
+car_cascade_am = cv2.CascadeClassifier('haarcascade_am.xml')
+car_cascade_ge = cv2.CascadeClassifier('haarcascade_ge.xml')
+
+@app.route('/process_image', methods=['POST'])
+def process_image():
+    # Получение изображения из POST-запроса
+    file = request.files['image']
+    img = cv2.imdecode(np.fromstring(file.read(), np.uint8), cv2.IMREAD_COLOR)
+
+    # Преобразование изображения в оттенки серого
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    # Обнаружение номеров машин на изображении
+    cars_usa = car_cascade_usa.detectMultiScale(gray, 1.1, 4)
+    cars_eu = car_cascade_eu.detectMultiScale(gray, 1.1, 4)
+    cars_kr = car_cascade_kr.detectMultiScale(gray, 1.1, 4)
+    cars_jp = car_cascade_jp.detectMultiScale(gray, 1.1, 4)
+    cars_cn = car_cascade_cn.detectMultiScale(gray, 1.1, 4)
+    cars_am = car_cascade_am.detectMultiScale(gray, 1.1, 4)
+    cars_ge = car_cascade_ge.detectMultiScale(gray, 1.1, 4)
+
+    # Замена номеров машин на логотип
+    for (x, y, w, h) in cars_usa:
+        # Загрузка логотипа и изменение его размера
+        logo = cv2.imread('logo_usa.png')
+        logo = cv2.resize(logo, (w, h))
+        img[y:y+h, x:x+w] = logo
+
+    for (x, y, w, h) in cars_eu:
+        # Загрузка логотипа и изменение его размера
+        logo = cv2.imread('logo_eu.png')
+        logo = cv2.resize(logo, (w, h))
+        img[y:y+h, x:x+w] = logo
+
+    for (x, y, w, h) in cars_kr:
+        # Загрузка логотипа и изменение его размера
+        logo = cv2.imread('logo_kr.png')
+        logo = cv2.resize(logo, (w, h))
+        img[y:y+h, x:x+w] = logo
+
+    for (x, y, w, h) in cars_jp:
+        # Загрузка логотипа и изменение его размера
+        logo = cv2.imread('logo_jp.png')
+        logo = cv2.resize(logo, (w, h))
+        img[y:y+h, x:x+w] = logo
+
+    for (x, y, w, h) in cars_cn:
+        # Загрузка логотипа и изменение его размера
+        logo = cv2.imread('logo_cn.png')
+        logo = cv2.resize(logo, (w, h))
+        img[y:y+h, x:x+w] = logo
+
+    for (x, y, w, h) in cars_am:
+        # Загрузка логотипа и изменение его размера
+        logo = cv2.imread('logo_am.png')
+        logo = cv2.resize(logo, (w, h))
+        img[y:y+h, x:x+w] = logo
+
+    for (x, y, w, h) in cars_ge:
+        # Загрузка логотипа и изменение его размера
+        logo = cv2.imread('logo_ge.png')
+        logo = cv2.resize(logo, (w, h))
+        img[y:y+h, x:x+w] = logo
+
+    # Сохранение результата в формате webp
+    _, buffer = cv2.imencode('.webp', img, [cv2.IMWRITE_WEBP_QUALITY, 50])
+    result = buffer.tobytes()
+
+    # Отправка обработанного изображения обратно в ответе
+    return Response(result, mimetype='image/jpeg')
+
+@app.route('/')
+def index():
+    return 'Готовая картинка!'
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)

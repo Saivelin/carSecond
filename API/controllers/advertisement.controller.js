@@ -139,7 +139,7 @@ class UserController {
     async getByFiltersFrom(req, res) {
         try {
             console.log(req.body)
-            const { id, mark, model, generation, bodyType, transmission, drive, priceFrom, priceTo, valueFrom, valueTo, mileageFrom, mileageTo } = req.body
+            const { id, mark, model, generation, bodyType, transmission, drive, priceFrom, priceTo, valueFrom, valueTo, mileageFrom, mileageTo, count } = req.body
             console.log(mark)
             let whereData = {};
             if (mark) { whereData.mark = mark }
@@ -156,21 +156,51 @@ class UserController {
                     }
                 }
             }
-            // else if (!priceFrom && !priceTo) {
+            else if (!priceFrom && !priceTo) {
 
-            // }
-            // else if (!priceFrom) {
-            //     whereData.price = {
-            //         [Op.lt]: priceTo
-            //     }
-            // }
-            // else if (!priceTo) {
-            //     whereData.price = `${priceFrom} < price`
-            // }
+            }
+            else if (!priceFrom) {
+                whereData.price = {
+                    [Op.lte]: priceTo
+                }
+            }
+            else if (!priceTo) {
+                whereData.price = {
+                    [Op.gte]: priceFrom
+                }
+            }
+
+            if (mileageFrom && mileageTo) {
+                whereData.mileage = {
+                    [Op.and]: {
+                        [Op.gte]: mileageFrom,
+                        [Op.lte]: mileageTo,
+                    }
+                }
+            }
+            else if (!mileageFrom && !mileageTo) {
+
+            }
+            else if (!mileageFrom) {
+                whereData.mileage = {
+                    [Op.lte]: mileageTo
+                }
+            }
+            else if (!mileageTo) {
+                whereData.mileage = {
+                    [Op.gte]: mileageFrom
+                }
+            }
             console.log(whereData)
             if (!id) {
+                // if (!count) {
                 const ads = await Advertisement.findAll({ where: whereData, include: { model: photoForAdvertisement, attributes: ["url"] } })
                 return res.json(ads)
+                // }
+                // else {
+                // const ads = await Advertisement.count({ where: whereData, include: { model: photoForAdvertisement, attributes: ["url"] } })
+                // return res.json(ads)
+                // }
             }
             return res.json({ message: "Not valuable id" })
         }

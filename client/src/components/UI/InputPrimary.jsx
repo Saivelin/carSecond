@@ -3,7 +3,13 @@ import React from 'react';
 const InputPrimary = ({ classes, placeholder, setter, type }) => {
     const changeHandler = (e) => {
         if (setter) {
-            setter(e.target.value)
+            if (type == "number") {
+                setter(Number(e.target.value))
+            }
+            else {
+                setter(e.target.value)
+            }
+            console.log(e.target.value)
         }
     }
 

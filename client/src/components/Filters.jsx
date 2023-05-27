@@ -29,6 +29,12 @@ const Filters = ({ setterFilteredAds }) => {
     const [driveNow, setDriveNow] = useState()
     const [priceFrom, setPriceFrom] = useState(1)
     const [priceTo, setPriceTo] = useState(999999999999999)
+    const [valueFromNow, setValueFromNow] = useState(1);
+    const [valueToNow, setValueToNow] = useState(999999999999999);
+    const [mileageFromNow, setMileageFromNow] = useState(-2);
+    const [mileageToNow, setMileageToNow] = useState(999999999999999);
+
+
 
     useEffect(() => {
         // getMarksOfCars()
@@ -120,13 +126,37 @@ const Filters = ({ setterFilteredAds }) => {
             postData.push(undefined)
         }
         if (priceFrom) {
-            postData.push(Number(priceFrom))
+            postData.push(priceFrom)
         }
         else {
             postData.push(undefined)
         }
         if (priceTo) {
-            postData.push(Number(priceTo))
+            postData.push(priceTo)
+        }
+        else {
+            postData.push(undefined)
+        }
+        if (valueFromNow) {
+            postData.push(valueFromNow)
+        }
+        else {
+            postData.push(undefined)
+        }
+        if (valueToNow) {
+            postData.push(valueToNow)
+        }
+        else {
+            postData.push(undefined)
+        }
+        if (mileageFromNow) {
+            postData.push(mileageFromNow)
+        }
+        else {
+            postData.push(undefined)
+        }
+        if (mileageToNow) {
+            postData.push(mileageToNow)
         }
         else {
             postData.push(undefined)
@@ -161,12 +191,12 @@ const Filters = ({ setterFilteredAds }) => {
                 <InputPrimary classes="input-filter" placeholder="Цена до" setter={setPriceTo} type="number" />
             </div>
             <div className="filter__twoInOne">
-                <InputPrimary classes="input-filter" placeholder="Объем от" />
-                <InputPrimary classes="input-filter" placeholder="Объем до" />
+                <InputPrimary classes="input-filter" placeholder="Объем от" setter={setValueFromNow} type="number" />
+                <InputPrimary classes="input-filter" placeholder="Объем до" setter={setValueToNow} type="number" />
             </div>
             <div className="filter__twoInOne">
-                <InputPrimary classes="input-filter" placeholder="Пробег от" />
-                <InputPrimary classes="input-filter" placeholder="Пробег до" />
+                <InputPrimary classes="input-filter" placeholder="Пробег от" setter={setMileageFromNow} type="number" />
+                <InputPrimary classes="input-filter" placeholder="Пробег до" setter={setMileageToNow} type="number" />
             </div>
             <FilterBtn onClick={handelSubmit}>
                 Показать {count} предложений

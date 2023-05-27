@@ -26,7 +26,7 @@ const Advertisement = sequelize.define('advertisements', {
     transmission: { type: DataTypes.STRING, defaultValue: "Не указан" },
     modification: { type: DataTypes.STRING, defaultValue: "Не указана" },
     color: { type: DataTypes.STRING, defaultValue: "Не указан" },
-    mileage: { type: DataTypes.STRING, defaultValue: "Не указан" },
+    mileage: { type: DataTypes.INTEGER, defaultValue: -1 },
     features: { type: DataTypes.STRING, defaultValue: "Не указаны" },
     howToContactType: { type: DataTypes.STRING, defaultValue: "All" },
     address: { type: DataTypes.STRING },
