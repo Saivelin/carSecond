@@ -42,6 +42,12 @@
             flex-grow: 1.15;
             &>a>img{
                 height: clamp(1rem, 3rem, 80px);
+                // transition: .4s;
+                // &:hover{
+                    // border: 2px solid $mainColor;
+                    // border-radius: 9999px;
+                    // 
+                // }
                 // border-radius: 999px;
                 // @include inside-shadow;
             }
@@ -62,4 +68,12 @@
 .header__nav-hover:hover:after,
 .header__nav-hover:focus:after {
     width: 100%;
+}
+
+circle,
+rect,
+line {
+  stroke-width: 3px;
+  stroke-linecap: round;
+  fill: transparent;
 }

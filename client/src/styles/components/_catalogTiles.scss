@@ -6,6 +6,7 @@
     grid-column-end: 12;
     height: 100%;
     gap: 30px;
+    grid-auto-flow: dense;
     &-once{
         grid-template-columns: 1fr;
     }
