@@ -13,6 +13,8 @@ import { useForm } from "react-hook-form";
 const NewAdForm = ({ classes, propertyes, userNow }) => {
     const userAuthd = useRecoilValue(user)
 
+    const [images, setImages] = useState([])
+
     const [marks, setMarks] = useState([{ name: "BMW", value: "BMW" }]);
     const [markNow, setMarkNow] = useState(false);
 
@@ -118,7 +120,9 @@ const NewAdForm = ({ classes, propertyes, userNow }) => {
         formDat.append("generation", generationNow)
         formDat.append("userId", userAuthd.id)
         formDat.append("transmission", transmission)
-        formDat.append("imgs", refInputImages.current.files)
+        // formDat.append("imgs", refInputImages.current.files)
+        console.log(images)
+        formDat.append("imgs", images)
 
         // drive,
         // modification,
@@ -132,6 +136,9 @@ const NewAdForm = ({ classes, propertyes, userNow }) => {
 
         for (let pair of formDat.entries()) {
             console.log(pair[0] + ' - ' + pair[1]);
+            if (pair[1][0]) {
+                console.log(pair[1][1])
+            }
         }
         // axios.post(`${apiUrl}api/advertisement/add`, formDat).then((res) => { console.log(res) })
         axios({
@@ -152,7 +159,7 @@ const NewAdForm = ({ classes, propertyes, userNow }) => {
         <form ref={form} className={classes ? "newAdForm " + classes : "newAdForm"} onSubmit={handleSubmit(onSubmit)}>
             <div className="newAdForm__left newAdForm__left-sectionOne">
                 <label htmlFor="addImageForNewAd">
-                    <input ref={refInputImages} type="file" size={"md"} id="addImageForNewAd" className="newAdForm__addImageForNewAd" name="photo" />
+                    <input ref={refInputImages} onChange={(e) => { setImages([...images, e.target.value]) }} multiple="multiple" type="file" size={"md"} id="addImageForNewAd" className="newAdForm__addImageForNewAd" />
                     <div className="newAdForm__addImageForNewAdWrapper">
                         <div className="newAdForm__addImageForNewAdWrapper-content">
                             <img src="/addPhoto.svg" alt="" />

@@ -41,7 +41,7 @@ class UserController {
                 typeOfDocument,
                 userId } = req.body
             const files = Object.values(req.files);
-            console.log(req.body)
+            console.log(req.files)
 
             if (!mark || !model || !generation || !userId) {
                 return res.status(400).json({ status: false })
@@ -81,6 +81,7 @@ class UserController {
                 })
             files.forEach((img) => {
                 let fileName = uuid.v4() + ".png"
+                console.log(fileName)
                 if (img) {
                     if (img.mimetype.split("/")[0] != "image") {
                         return res.json({ status: false })
@@ -127,7 +128,7 @@ class UserController {
                 const ad = await Advertisement.findOne({ where: { id: id } })
                 const uid = ad.toJSON().userId;
                 const user = await User.findOne({ where: { id: uid } })
-                return res.json({ id: id, lfp: user.lfp, phone: user.phone, role: user.role, logo: user.logo, lfpOrNick: user.lfpOrNick, nick: user.nick })
+                return res.json({ id: user.id, lfp: user.lfp, phone: user.phone, role: user.role, logo: user.logo, lfpOrNick: user.lfpOrNick, nick: user.nick })
             }
             return res.json({ message: "Not valuable id" })
         }
@@ -226,6 +227,32 @@ class UserController {
                 const bodyNew = await BodyTypes.create({ title: el })
             })
             return res.json({ status: true })
+        }
+        catch {
+            return res.json({ status: false })
+        }
+    }
+
+    async getAdsByPrice(req, res) {
+        try {
+            const { price } = req.params
+            const coof = 5
+            const priceFrom = (price - ((price / 100) * coof))
+            const priceTo = ((price / 100) * coof) + Number(price)
+            console.log(`From: ${priceFrom}, To: ${priceTo} `)
+            let userAds = await Advertisement.findAll({
+                where: {
+                    price:
+                    {
+                        [Op.and]: {
+                            [Op.gte]: priceFrom,
+                            [Op.lte]: priceTo,
+                        }
+                    }
+                },
+                include: { model: photoForAdvertisement, attributes: ["url"] }
+            })
+            return res.json(userAds)
         }
         catch {
             return res.json({ status: false })

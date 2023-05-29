@@ -21,6 +21,11 @@ export const getBodyTypes = async () => {
     return res.data
 }
 
+export const getAdsByPrice = async (price) => {
+    const res = await $host.get(`api/advertisement/getAdsByPrice/${price}`)
+    return res.data
+}
+
 export const getFilteredCatalogData = async (
     id = undefined,
     mark = undefined,

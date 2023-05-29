@@ -7,12 +7,13 @@ import CatalogTile from "@/components/CatalogTile";
 import { motion } from "framer-motion";
 import ImageGallery from 'react-image-gallery';
 import Modal from "@/components/Modal"
-import { getById, getUserByIdOfAd } from "@/http/adsAPI";
+import { getAdsByPrice, getById, getUserByIdOfAd } from "@/http/adsAPI";
 import { apiUrl } from "@/vars";
 import Head from "next/head";
 import { useSetRecoilState } from "recoil";
 import { modalState } from "@/state/atoms";
 import Link from "next/link";
+import { Skeleton } from "@chakra-ui/react";
 
 export const getServerSideProps = async (context) => {
     const { id } = context.params
@@ -31,8 +32,8 @@ const vehicles = ({ vehicleFromServer, userOfAd }) => {
 
     const test = [{
         id: 1,
-        img: "/test.png",
-        images: ["/test.png", "/test1.png", "/test2.png", "/test3.png"],
+        img: "/noImage.png",
+        images: ["/noImage.png", "/noImage.png", "/noImage.png", "/noImage.png"],
         title: "BMW M5 Competition, 2020",
         year: 2020,
         complication: "Полный",
@@ -105,6 +106,9 @@ const vehicles = ({ vehicleFromServer, userOfAd }) => {
         ]
     });
 
+    const [sameAds, setSameAds] = useState([test[0], test[0], test[0]])
+    const [sameLoaded, setSameLoaded] = useState(false)
+
     useEffect(() => {
         let newVehicle = vehicleFromServer
         // newVehicle.imgsFull = newVehicle.photoForAdvertisements.map((el) => {
@@ -154,6 +158,22 @@ const vehicles = ({ vehicleFromServer, userOfAd }) => {
         console.log(gallery.current)
         gallery.current.classList.remove("vehicleDetails__gallery-fullScreenWrapper-active")
     }
+
+    const getAdsByPriceA = async () => {
+        console.log(vehicle.price)
+        let newArray = await getAdsByPrice(vehicle.price)
+        newArray = [newArray[0], newArray[1], newArray[2]]
+        setSameAds(newArray)
+    }
+
+    const getAdsByPriceAndSet = async () => {
+        await getAdsByPriceA()
+        setSameLoaded(true)
+    }
+
+    useEffect(() => {
+        getAdsByPriceAndSet()
+    }, [vehicle])
 
     const mainImage = useRef()
     const gallery = useRef()
@@ -389,9 +409,31 @@ const vehicles = ({ vehicleFromServer, userOfAd }) => {
                 />
                 <div className="vehicleDetails__similarAds">
                     <h3>Похожие объявления: </h3>
-                    <CatalogTile tile={test[0]} />
-                    <CatalogTile tile={test[0]} />
-                    <CatalogTile tile={test[0]} />
+                    {
+                        sameLoaded === true && sameAds[0]?.id ?
+                            sameAds.map((el) => {
+                                return <CatalogTile key={el.id} tile={el} />
+                            })
+                            :
+                            ""
+                    }
+                    {!sameLoaded ?
+                        (<>
+
+                            <Skeleton style={{ borderRadius: "8px" }}>
+                                <CatalogTile tile={test[0]} />
+                            </Skeleton>
+                            <Skeleton style={{ borderRadius: "8px" }}>
+                                <CatalogTile tile={test[0]} />
+                            </Skeleton>
+                            <Skeleton style={{ borderRadius: "8px" }}>
+                                <CatalogTile tile={test[0]} />
+                            </Skeleton>
+
+                        </>)
+                        :
+                        ""
+                    }
                 </div>
             </div>
         </motion.div>

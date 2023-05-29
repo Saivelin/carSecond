@@ -10,6 +10,7 @@ router.get('/getById/:id', advertisementController.getById)
 router.get('/getUserByIdOfAd/:id', advertisementController.getUserByIdOfAd)
 router.post('/getByFiltersFrom', advertisementController.getByFiltersFrom)
 router.get('/getBodyTypes', advertisementController.getBodyTypes)
+router.get('/getAdsByPrice/:price', advertisementController.getAdsByPrice)
 router.post('/addBodyTypes', advertisementController.addBodyTypes)
 
 module.exports = router
